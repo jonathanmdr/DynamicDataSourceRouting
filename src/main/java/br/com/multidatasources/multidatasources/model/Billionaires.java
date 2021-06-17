@@ -25,7 +25,7 @@ public class Billionaires {
     
     public Billionaires() { }
 
-    public Billionaires(Long id, String firstName, String lastName, String career) {        
+    public Billionaires(Long id, String firstName, String lastName, String career) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -63,5 +63,5 @@ public class Billionaires {
     public void setCareer(String career) {
         this.career = career;
     }
-    
+
 }
