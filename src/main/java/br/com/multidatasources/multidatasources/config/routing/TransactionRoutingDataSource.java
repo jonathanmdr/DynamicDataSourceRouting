@@ -1,7 +1,7 @@
-package br.com.multidatasources.multidatasources.config;
+package br.com.multidatasources.multidatasources.config.routing;
 
-import static br.com.multidatasources.multidatasources.config.DataSourceType.READ_ONLY;
-import static br.com.multidatasources.multidatasources.config.DataSourceType.READ_WRITE;
+import static br.com.multidatasources.multidatasources.config.datasource.DataSourceType.READ_ONLY;
+import static br.com.multidatasources.multidatasources.config.datasource.DataSourceType.READ_WRITE;
 
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.transaction.support.TransactionSynchronizationManager;

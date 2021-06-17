@@ -1,4 +1,4 @@
-package br.com.multidatasources.multidatasources.config;
+package br.com.multidatasources.multidatasources.config.datasource;
 
 public enum DataSourceType {
     READ_ONLY("Slave-DB"),

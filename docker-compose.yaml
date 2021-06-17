@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+  master-db:
+    image: docker.io/bitnami/mysql:8.0
+    container_name: master-db
+    ports:
+      - 3306:3306
+    volumes:
+      - 'data:/bitnami/mysql/data'
+    environment:
+      - MYSQL_REPLICATION_MODE=master
+      - MYSQL_REPLICATION_USER=repl_user
+      - MYSQL_USER=master
+      - MYSQL_DATABASE=billionaires
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_ROOT_PASSWORD=root
+    healthcheck:
+      test: ['CMD', '/opt/bitnami/scripts/mysql/healthcheck.sh']
+      interval: 15s
+      timeout: 5s
+      retries: 6
+
+  slave-db:
+    image: docker.io/bitnami/mysql:8.0
+    container_name: slave-db
+    ports:
+      - 3307:3306
+    depends_on:
+      - master-db
+    environment:
+      - MYSQL_REPLICATION_MODE=slave
+      - MYSQL_REPLICATION_USER=repl_user
+      - MYSQL_USER=slave
+      - MYSQL_DATABASE=billionaires
+      - MYSQL_MASTER_HOST=master-db
+      - MYSQL_MASTER_PORT_NUMBER=3306
+      - MYSQL_MASTER_ROOT_PASSWORD=root
+      - ALLOW_EMPTY_PASSWORD=yes
+    healthcheck:
+      test: ['CMD', '/opt/bitnami/scripts/mysql/healthcheck.sh']
+      interval: 15s
+      timeout: 5s
+      retries: 6
+
+volumes:
+  data:
+    driver: local
