@@ -1,4 +1,4 @@
-# RoutingDataSource
+# RoutingDataSource        [![CI](https://github.com/jonathanmdr/RoutingDataSource/actions/workflows/maven.yml/badge.svg)](https://github.com/jonathanmdr/RoutingDataSource/actions/workflows/maven.yml)
 Exemplo de uma API Rest desenvolvida em Java com Spring, o intuíto é apresentar uma solução para trabalhar com múltiplas fontes de dados, neste exemplo trabalharemos com apenas duas, sendo uma base de dados principal e outra base de dados réplica.
 </br>
 A ideia é fazer com que a aplicação direcione as transações `READ_ONLY` para a base de dados réplica e que as transações `READ_WRITE` sejam direcionadas para a base de dados principal.
