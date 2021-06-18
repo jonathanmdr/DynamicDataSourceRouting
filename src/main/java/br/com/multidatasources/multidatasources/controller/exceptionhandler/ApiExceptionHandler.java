@@ -97,7 +97,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ApiError error = createApiError(status, detail);
         error.setUserMessage(GENERIC_ERROR_MESSAGE);
 
-        return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
+        return super.handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
     }
 
     @Override
@@ -124,7 +124,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ApiError error = createApiError(status, "The request body is invalid. Verify syntax error.");
         error.setUserMessage(GENERIC_ERROR_MESSAGE);
 
-        return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
+        return super.handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
     }
 
     @Override
