@@ -1,27 +1,20 @@
 package br.com.multidatasources.multidatasources.controller.dto;
 
-public class BillionairesOutputDto {
+import javax.validation.constraints.NotBlank;
 
-    private Long id;
-    private String firstName;
-    private String lastName;
-    private String career;
+public class BillionaireInputDto {
 
-    public BillionairesOutputDto() { }
+    @NotBlank(message = "First name is mandatory")
+    public String firstName;
+    public String lastName;
+    public String career;
 
-    public BillionairesOutputDto(Long id, String firstName, String lastName, String career) {
-        this.id = id;
+    public BillionaireInputDto() { }
+
+    public BillionaireInputDto(String firstName, String lastName, String career) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.career = career;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getFirstName() {

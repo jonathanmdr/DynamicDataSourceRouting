@@ -17,7 +17,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import br.com.multidatasources.multidatasources.model.Billionaires;
+import br.com.multidatasources.multidatasources.model.Billionaire;
 
 @Configuration
 @EnableTransactionManagement
@@ -36,7 +36,7 @@ public class JpaTransactionManagerConfiguration {
         entityManagerFactoryBean.setPersistenceUnitName(getClass().getSimpleName());
         entityManagerFactoryBean.setPersistenceProvider(new HibernatePersistenceProvider());
         entityManagerFactoryBean.setDataSource(routingDataSource);
-        entityManagerFactoryBean.setPackagesToScan(Billionaires.class.getPackageName());
+        entityManagerFactoryBean.setPackagesToScan(Billionaire.class.getPackageName());
 
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         HibernateJpaDialect jpaDialect = vendorAdapter.getJpaDialect();
