@@ -23,7 +23,7 @@ public class MasterDataSourceConfiguration extends AbstractDataSourceConfigurati
     }
 
     @Override
-    public boolean getAutoCommit() {
+    public boolean isAutoCommitEnabled() {
         return false;
     }
 

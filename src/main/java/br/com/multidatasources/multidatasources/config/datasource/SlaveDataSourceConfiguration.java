@@ -23,7 +23,7 @@ public class SlaveDataSourceConfiguration extends AbstractDataSourceConfiguratio
     }
 
     @Override
-    public boolean getAutoCommit() {
+    public boolean isAutoCommitEnabled() {
         return false;
     }
 
