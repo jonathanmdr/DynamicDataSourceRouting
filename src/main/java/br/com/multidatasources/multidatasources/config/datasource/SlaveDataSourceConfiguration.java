@@ -23,7 +23,7 @@ public class SlaveDataSourceConfiguration extends AbstractDataSourceConfiguratio
     }
 
     @Override
-    public boolean isAutoCommitEnabled() {
+    public boolean autoCommitIsEnabled() {
         return false;
     }
 
@@ -33,7 +33,7 @@ public class SlaveDataSourceConfiguration extends AbstractDataSourceConfiguratio
         dataSource.setUrl(properties.getUrl());
         dataSource.setUsername(properties.getUsername());
         dataSource.setPassword(properties.getPassword());
-        return definePoolDataSourceConnection(dataSource);
+        return super.definePoolDataSourceConnection(dataSource);
     }
 
 }

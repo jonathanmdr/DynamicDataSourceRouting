@@ -22,7 +22,7 @@ public class FlywayConfiguration {
     public Flyway flyway(){
         return Flyway.configure()
                 .baselineOnMigrate(true)
-                .locations("classpath:db/migration")
+                .locations("classpath:db/migration", "classpath:db/testdata")
                 .dataSource(dataSource)
                 .schemas("billionaires")
                 .target(MigrationVersion.LATEST)

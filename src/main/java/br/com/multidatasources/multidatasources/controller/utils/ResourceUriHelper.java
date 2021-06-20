@@ -11,7 +11,8 @@ public class ResourceUriHelper {
     public static URI getUri(Object resourceId) {
         return ServletUriComponentsBuilder.fromCurrentRequestUri()
                 .path("/{id}")
-                .buildAndExpand(resourceId).toUri();
+                .buildAndExpand(resourceId)
+                .toUri();
     }
 
 }

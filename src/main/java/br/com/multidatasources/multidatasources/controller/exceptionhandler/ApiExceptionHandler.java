@@ -41,7 +41,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<Object> handleStateNotFoundException(EntityNotFoundException ex, WebRequest request) {
+    protected ResponseEntity<Object> handleStateNotFoundException(EntityNotFoundException ex, WebRequest request) {
         HttpStatus status = HttpStatus.NOT_FOUND;
 
         ApiError error = createApiError(status, ex.getMessage());
@@ -51,7 +51,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class) 
-    public ResponseEntity<Object> handlerUncaught(Exception ex, WebRequest request) {
+    protected ResponseEntity<Object> handlerUncaught(Exception ex, WebRequest request) {
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
 
         ApiError error = createApiError(status, GENERIC_ERROR_MESSAGE);
@@ -63,31 +63,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         return handleValidationInternal(ex, ex.getBindingResult(), new HttpHeaders(), status, request);
-    }
-
-    private ResponseEntity<Object> handleValidationInternal(Exception ex, BindingResult bindingResult, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        String detail = "One or more fields are invalid. fill in correctly and try again.";
-
-        List<ApiError.FieldError> fields = bindingResult.getAllErrors()
-                .stream()
-                .map(objectError -> {
-                    String message = messageSource.getMessage(objectError, LocaleContextHolder.getLocale());
-
-                    String name = objectError.getObjectName();
-
-                    if (objectError instanceof FieldError) {
-                        name = ((FieldError) objectError).getField();
-                    }
-
-                    return new ApiError.FieldError(name, message);
-                })
-                .collect(Collectors.toList());
-
-        ApiError error = createApiError(status, detail);
-        error.setUserMessage(detail);
-        error.setFields(fields);
-
-        return super.handleExceptionInternal(ex, error, headers, status, request);
     }
 
     @Override
@@ -159,6 +134,31 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         ApiError error = createApiError(status, detail);
         error.setUserMessage(GENERIC_ERROR_MESSAGE);
+
+        return super.handleExceptionInternal(ex, error, headers, status, request);
+    }
+
+    private ResponseEntity<Object> handleValidationInternal(Exception ex, BindingResult bindingResult, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        String detail = "One or more fields are invalid. fill in correctly and try again.";
+
+        List<ApiError.FieldError> fields = bindingResult.getAllErrors()
+                .stream()
+                .map(objectError -> {
+                    String message = messageSource.getMessage(objectError, LocaleContextHolder.getLocale());
+
+                    String name = objectError.getObjectName();
+
+                    if (objectError instanceof FieldError) {
+                        name = ((FieldError) objectError).getField();
+                    }
+
+                    return new ApiError.FieldError(name, message);
+                })
+                .collect(Collectors.toList());
+
+        ApiError error = createApiError(status, detail);
+        error.setUserMessage(detail);
+        error.setFields(fields);
 
         return super.handleExceptionInternal(ex, error, headers, status, request);
     }
