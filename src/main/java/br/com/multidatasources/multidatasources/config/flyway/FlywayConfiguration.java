@@ -1,13 +1,13 @@
 package br.com.multidatasources.multidatasources.config.flyway;
 
-import javax.annotation.PostConstruct;
-import javax.sql.DataSource;
-
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.MigrationVersion;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
 
 @Configuration
 public class FlywayConfiguration {
@@ -22,7 +22,7 @@ public class FlywayConfiguration {
     public Flyway flyway(){
         return Flyway.configure()
                 .baselineOnMigrate(true)
-                .locations("classpath:db/migration", "classpath:db/testdata")
+                .locations("classpath:db/migration", "classpath:db/test-data")
                 .dataSource(dataSource)
                 .schemas("billionaires")
                 .target(MigrationVersion.LATEST)

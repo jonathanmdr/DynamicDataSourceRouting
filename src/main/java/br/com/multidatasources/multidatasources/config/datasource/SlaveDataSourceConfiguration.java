@@ -18,7 +18,7 @@ public class SlaveDataSourceConfiguration extends AbstractDataSourceConfiguratio
     }
 
     @Override
-    public int getMaximunPoolSize() {
+    public int getMaximumPoolSize() {
         return Runtime.getRuntime().availableProcessors() * 4;
     }
 

@@ -1,13 +1,12 @@
 package br.com.multidatasources.multidatasources.config.datasource;
 
-import javax.sql.DataSource;
-
+import br.com.multidatasources.multidatasources.config.properties.DatabaseConnectionProperties;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
-import br.com.multidatasources.multidatasources.config.properties.DatabaseConnectionProperties;
+import javax.sql.DataSource;
 
 @Configuration
 public class MasterDataSourceConfiguration extends AbstractDataSourceConfiguration {
@@ -18,7 +17,7 @@ public class MasterDataSourceConfiguration extends AbstractDataSourceConfigurati
     }
 
     @Override
-    public int getMaximunPoolSize() {
+    public int getMaximumPoolSize() {
         return Runtime.getRuntime().availableProcessors() * 4;
     }
 
