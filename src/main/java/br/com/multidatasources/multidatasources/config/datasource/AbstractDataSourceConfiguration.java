@@ -11,8 +11,6 @@ public abstract class AbstractDataSourceConfiguration {
 
     public abstract int getMaximumPoolSize();
 
-    public abstract boolean autoCommitIsEnabled();
-
     public HikariDataSource definePoolDataSourceConnection(DataSource dataSource) {
         return new HikariDataSource(hikariConfig(dataSource));
     }
@@ -23,7 +21,7 @@ public abstract class AbstractDataSourceConfiguration {
         hikariConfig.setPoolName(getPoolName());
         hikariConfig.setMaximumPoolSize(getMaximumPoolSize());
         hikariConfig.setDataSource(dataSource);
-        hikariConfig.setAutoCommit(autoCommitIsEnabled());
+        hikariConfig.setAutoCommit(false);
 
         return hikariConfig;
     }

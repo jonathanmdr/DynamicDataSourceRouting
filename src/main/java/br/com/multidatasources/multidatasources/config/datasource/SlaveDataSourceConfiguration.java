@@ -22,17 +22,14 @@ public class SlaveDataSourceConfiguration extends AbstractDataSourceConfiguratio
         return Runtime.getRuntime().availableProcessors() * 4;
     }
 
-    @Override
-    public boolean autoCommitIsEnabled() {
-        return false;
-    }
-
     @Bean
     public DataSource slaveDataSource(@Qualifier("slaveProperties") DatabaseConnectionProperties properties) {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
+
         dataSource.setUrl(properties.getUrl());
         dataSource.setUsername(properties.getUsername());
         dataSource.setPassword(properties.getPassword());
+
         return super.definePoolDataSourceConnection(dataSource);
     }
 
