@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class DataSourcePropertiesConfiguration {
+public class DataSourceConnectionPropertiesConfiguration {
 
     public static final String MASTER_PROPERTIES_QUALIFIER = "masterProperties";
     public static final String SLAVE_PROPERTIES_QUALIFIER = "slaveProperties";

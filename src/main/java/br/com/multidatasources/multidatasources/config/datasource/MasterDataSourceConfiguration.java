@@ -8,7 +8,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
 
-import static br.com.multidatasources.multidatasources.config.properties.datasource.DataSourcePropertiesConfiguration.MASTER_PROPERTIES_QUALIFIER;
+import static br.com.multidatasources.multidatasources.config.properties.datasource.DataSourceConnectionPropertiesConfiguration.MASTER_PROPERTIES_QUALIFIER;
 
 @Configuration
 public class MasterDataSourceConfiguration extends AbstractDataSourceConfiguration {
