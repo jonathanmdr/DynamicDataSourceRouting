@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   master-db:
@@ -7,7 +7,7 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - 'data:/bitnami/mysql/data'
+      - "data:/bitnami/mysql/data"
     environment:
       - MYSQL_REPLICATION_MODE=master
       - MYSQL_REPLICATION_USER=repl_user
@@ -16,7 +16,7 @@ services:
       - ALLOW_EMPTY_PASSWORD=yes
       - MYSQL_ROOT_PASSWORD=root
     healthcheck:
-      test: ['CMD', '/opt/bitnami/scripts/mysql/healthcheck.sh']
+      test: ["CMD", "/opt/bitnami/scripts/mysql/healthcheck.sh"]
       interval: 15s
       timeout: 5s
       retries: 6
@@ -38,7 +38,7 @@ services:
       - MYSQL_MASTER_ROOT_PASSWORD=root
       - ALLOW_EMPTY_PASSWORD=yes
     healthcheck:
-      test: ['CMD', '/opt/bitnami/scripts/mysql/healthcheck.sh']
+      test: ["CMD", "/opt/bitnami/scripts/mysql/healthcheck.sh"]
       interval: 15s
       timeout: 5s
       retries: 6
