@@ -1,4 +1,4 @@
-package br.com.multidatasources.multidatasources.config.properties;
+package br.com.multidatasources.multidatasources.config.properties.datasource;
 
 public class DatabaseConnectionProperties {
 

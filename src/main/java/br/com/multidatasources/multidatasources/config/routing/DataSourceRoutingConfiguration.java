@@ -10,14 +10,17 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
+import static br.com.multidatasources.multidatasources.config.datasource.MasterDataSourceConfiguration.MASTER_DATA_SOURCE_QUALIFIER;
+import static br.com.multidatasources.multidatasources.config.datasource.SlaveDataSourceConfiguration.SLAVE_DATA_SOURCE_QUALIFIER;
+
 @Configuration
 public class DataSourceRoutingConfiguration {
 
     @Bean
     @Primary
     public TransactionRoutingDataSource routingDataSource(
-            @Qualifier("masterDataSource") DataSource masterDataSource,
-            @Qualifier("slaveDataSource") DataSource slaveDataSource
+            @Qualifier(MASTER_DATA_SOURCE_QUALIFIER) DataSource masterDataSource,
+            @Qualifier(SLAVE_DATA_SOURCE_QUALIFIER) DataSource slaveDataSource
     ) {
         TransactionRoutingDataSource routingDataSource = new TransactionRoutingDataSource();
 

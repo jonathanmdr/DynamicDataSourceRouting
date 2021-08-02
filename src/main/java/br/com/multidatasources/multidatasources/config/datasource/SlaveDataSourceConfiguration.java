@@ -1,16 +1,19 @@
 package br.com.multidatasources.multidatasources.config.datasource;
 
-import javax.sql.DataSource;
-
+import br.com.multidatasources.multidatasources.config.properties.datasource.DatabaseConnectionProperties;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
-import br.com.multidatasources.multidatasources.config.properties.DatabaseConnectionProperties;
+import javax.sql.DataSource;
+
+import static br.com.multidatasources.multidatasources.config.properties.datasource.DataSourcePropertiesConfiguration.SLAVE_PROPERTIES_QUALIFIER;
 
 @Configuration
 public class SlaveDataSourceConfiguration extends AbstractDataSourceConfiguration {
+
+    public static final String SLAVE_DATA_SOURCE_QUALIFIER = "slaveDataSource";
 
     @Override
     public String getPoolName() {
@@ -23,7 +26,7 @@ public class SlaveDataSourceConfiguration extends AbstractDataSourceConfiguratio
     }
 
     @Bean
-    public DataSource slaveDataSource(@Qualifier("slaveProperties") DatabaseConnectionProperties properties) {
+    public DataSource slaveDataSource(@Qualifier(SLAVE_PROPERTIES_QUALIFIER) DatabaseConnectionProperties properties) {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
         dataSource.setUrl(properties.getUrl());

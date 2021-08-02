@@ -1,6 +1,6 @@
 package br.com.multidatasources.multidatasources.config.datasource;
 
-import br.com.multidatasources.multidatasources.config.properties.DatabaseConnectionProperties;
+import br.com.multidatasources.multidatasources.config.properties.datasource.DatabaseConnectionProperties;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,8 +8,12 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
 
+import static br.com.multidatasources.multidatasources.config.properties.datasource.DataSourcePropertiesConfiguration.MASTER_PROPERTIES_QUALIFIER;
+
 @Configuration
 public class MasterDataSourceConfiguration extends AbstractDataSourceConfiguration {
+
+    public static final String MASTER_DATA_SOURCE_QUALIFIER = "masterDataSource";
 
     @Override
     public String getPoolName() {
@@ -22,7 +26,7 @@ public class MasterDataSourceConfiguration extends AbstractDataSourceConfigurati
     }
 
     @Bean
-    public DataSource masterDataSource(@Qualifier("masterProperties") DatabaseConnectionProperties properties) {
+    public DataSource masterDataSource(@Qualifier(MASTER_PROPERTIES_QUALIFIER) DatabaseConnectionProperties properties) {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
         dataSource.setUrl(properties.getUrl());

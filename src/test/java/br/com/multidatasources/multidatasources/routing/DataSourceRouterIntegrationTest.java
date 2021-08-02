@@ -3,12 +3,14 @@ package br.com.multidatasources.multidatasources.routing;
 import br.com.multidatasources.multidatasources.MultiDataSourcesApplicationTests;
 import br.com.multidatasources.multidatasources.model.Billionaire;
 import br.com.multidatasources.multidatasources.service.BillionaireService;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 
-public class DataSourceRouterTest extends MultiDataSourcesApplicationTests {
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+public class DataSourceRouterIntegrationTest extends MultiDataSourcesApplicationTests {
 
     @Autowired
     private BillionaireService billionaireService;
@@ -19,13 +21,13 @@ public class DataSourceRouterTest extends MultiDataSourcesApplicationTests {
 
         Billionaire actual = billionaireService.save(billionaire);
 
-        Assertions.assertThat(actual).isNotNull();
-        Assertions.assertThat(actual.getId()).isOne();
+        assertThat(actual).isNotNull();
+        assertThat(actual.getId()).isOne();
     }
 
     @Test
     void givenFindRegistries_whenFindAll_thenThrownDataAccessException() {
-        Assertions.assertThatThrownBy(billionaireService::findAll)
+        assertThatThrownBy(billionaireService::findAll)
                 .isInstanceOf(DataAccessException.class);
     }
 
