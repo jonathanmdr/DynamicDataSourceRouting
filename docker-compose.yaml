@@ -5,7 +5,7 @@ services:
     image: docker.io/bitnami/mysql:8.0
     container_name: master-db
     ports:
-      - 3306:3306
+      - "3306:3306"
     volumes:
       - "data:/bitnami/mysql/data"
     environment:
@@ -25,7 +25,7 @@ services:
     image: docker.io/bitnami/mysql:8.0
     container_name: slave-db
     ports:
-      - 3307:3306
+      - "3307:3306"
     depends_on:
       - master-db
     environment:
