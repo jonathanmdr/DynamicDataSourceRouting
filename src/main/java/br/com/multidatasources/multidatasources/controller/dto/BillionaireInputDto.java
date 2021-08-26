@@ -6,7 +6,11 @@ public class BillionaireInputDto {
 
     @NotBlank(message = "First name is mandatory")
     public String firstName;
+
+    @NotBlank(message = "Last name is mandatory")
     public String lastName;
+
+    @NotBlank(message = "Career is mandatory")
     public String career;
 
     public BillionaireInputDto() { }
