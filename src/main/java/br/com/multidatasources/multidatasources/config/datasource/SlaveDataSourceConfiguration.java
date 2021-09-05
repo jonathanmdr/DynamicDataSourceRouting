@@ -25,7 +25,7 @@ public class SlaveDataSourceConfiguration extends AbstractDataSourceConfiguratio
         return Runtime.getRuntime().availableProcessors() * 4;
     }
 
-    @Bean
+    @Bean(name = SLAVE_DATA_SOURCE_QUALIFIER)
     public DataSource slaveDataSource(@Qualifier(SLAVE_PROPERTIES_QUALIFIER) DatabaseConnectionProperties properties) {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
 

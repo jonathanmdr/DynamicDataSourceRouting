@@ -25,7 +25,7 @@ public class MasterDataSourceConfiguration extends AbstractDataSourceConfigurati
         return Runtime.getRuntime().availableProcessors() * 4;
     }
 
-    @Bean
+    @Bean(name = MASTER_DATA_SOURCE_QUALIFIER)
     public DataSource masterDataSource(@Qualifier(MASTER_PROPERTIES_QUALIFIER) DatabaseConnectionProperties properties) {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
 

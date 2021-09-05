@@ -10,13 +10,13 @@ public class DataSourceConnectionPropertiesConfiguration {
     public static final String MASTER_PROPERTIES_QUALIFIER = "masterProperties";
     public static final String SLAVE_PROPERTIES_QUALIFIER = "slaveProperties";
 
-    @Bean
+    @Bean(name = MASTER_PROPERTIES_QUALIFIER)
     @ConfigurationProperties(prefix = "master.datasource")
     public DatabaseConnectionProperties masterProperties() {
         return new DatabaseConnectionProperties();
     }
 
-    @Bean
+    @Bean(name = SLAVE_PROPERTIES_QUALIFIER)
     @ConfigurationProperties(prefix = "slave.datasource")
     public DatabaseConnectionProperties slaveProperties() {
         return new DatabaseConnectionProperties();
