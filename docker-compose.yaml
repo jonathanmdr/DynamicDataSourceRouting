@@ -1,4 +1,4 @@
-version: "3"
+version: "3.7"
 
 services:
   master-db:
@@ -6,6 +6,8 @@ services:
     container_name: master-db
     ports:
       - "3306:3306"
+    networks:
+      - multi-data-sources
     volumes:
       - "data:/bitnami/mysql/data"
     environment:
@@ -26,6 +28,8 @@ services:
     container_name: slave-db
     ports:
       - "3307:3306"
+    networks:
+      - multi-data-sources
     depends_on:
       - master-db
     environment:
@@ -42,6 +46,10 @@ services:
       interval: 15s
       timeout: 5s
       retries: 6
+
+networks:
+  multi-data-sources:
+    driver: bridge
 
 volumes:
   data:
