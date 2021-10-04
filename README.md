@@ -31,5 +31,5 @@ Inicializar:
 ```
 Parar:
 ```sh
-~$ docker-compose down
+~$ docker-compose down --remove-orphans --volume
 ```
