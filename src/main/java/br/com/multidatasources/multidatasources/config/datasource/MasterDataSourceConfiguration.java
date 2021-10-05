@@ -11,7 +11,7 @@ import javax.sql.DataSource;
 import static br.com.multidatasources.multidatasources.config.properties.datasource.DataSourceConnectionPropertiesConfiguration.MASTER_PROPERTIES_QUALIFIER;
 
 @Configuration
-public class MasterDataSourceConfiguration extends AbstractDataSourceConfiguration {
+public class MasterDataSourceConfiguration implements DataSourceConfiguration {
 
     public static final String MASTER_DATA_SOURCE_QUALIFIER = "masterDataSource";
 
@@ -22,7 +22,7 @@ public class MasterDataSourceConfiguration extends AbstractDataSourceConfigurati
 
     @Override
     public int getMaximumPoolSize() {
-        return Runtime.getRuntime().availableProcessors() * 4;
+        return DataSourceType.READ_WRITE.getDefaultPoolSize();
     }
 
     @Bean(name = MASTER_DATA_SOURCE_QUALIFIER)
@@ -33,7 +33,7 @@ public class MasterDataSourceConfiguration extends AbstractDataSourceConfigurati
         dataSource.setUsername(properties.getUsername());
         dataSource.setPassword(properties.getPassword());
 
-        return super.definePoolDataSourceConnection(dataSource);
+        return definePoolDataSourceConnection(dataSource);
     }
 
 }

@@ -4,7 +4,7 @@ import br.com.multidatasources.multidatasources.model.Billionaire;
 
 public class BillionaireBuilder {
 
-    private Billionaire billionaire;
+    private final Billionaire billionaire;
 
     public BillionaireBuilder() {
         this.billionaire = new Billionaire();

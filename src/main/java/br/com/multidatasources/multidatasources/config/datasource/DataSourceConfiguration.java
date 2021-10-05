@@ -5,13 +5,13 @@ import javax.sql.DataSource;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-public abstract class AbstractDataSourceConfiguration {
+public interface DataSourceConfiguration {
 
-    public abstract String getPoolName();
+    String getPoolName();
 
-    public abstract int getMaximumPoolSize();
+    int getMaximumPoolSize();
 
-    public HikariDataSource definePoolDataSourceConnection(DataSource dataSource) {
+    default HikariDataSource definePoolDataSourceConnection(DataSource dataSource) {
         return new HikariDataSource(hikariConfig(dataSource));
     }
 
