@@ -5,11 +5,16 @@ import br.com.multidatasources.multidatasources.repository.BillionaireRepository
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.mock;
 
 class BillionaireServiceTest {
@@ -20,7 +25,7 @@ class BillionaireServiceTest {
     void givenAValidBillionaireId_whenFindBillionaireById_thenReturnASameBillionaireInformed() {
           given()
                .billionaire()
-                   .id(1L)
+                   .id(1L).ok()
                    .firstName("John")
                    .lastName("Doe")
                    .career("Software Developer")
@@ -35,7 +40,41 @@ class BillionaireServiceTest {
     }
 
     @Test
-    void findAll() {
+    void givenAInvalidBillionaireId_whenFindBillionaireById_thenThrowEntityNotFoundException() {
+        given()
+            .billionaire()
+                .id(1L).notFound()
+            .end()
+        .when(subject::findById, 1L)
+        .then()
+            .exceptionAsserter()
+                .isInstanceOf(EntityNotFoundException.class)
+                .messageIsEqualTo("Register with id 1 not found");
+    }
+
+    @Test
+    void givenATwoBillionaires_whenFindAll_thenReturnListWithTwoRegistries() {
+        given()
+            .billionaire()
+                .id(1L).ok()
+            .save()
+            .billionaire()
+                .id(2L).ok()
+            .save()
+        .when(subject::findAll)
+        .then()
+            .listAsserter()
+                .sizeIsEqualTo(2);
+    }
+
+    @Test
+    void givenEmptyDataBillionaires_whenFindAll_thenReturnListWithZeroRegistries() {
+        given()
+            .emptyData()
+        .when(subject::findAll)
+        .then()
+            .listAsserter()
+                .sizeIsEqualTo(0);
     }
 
     @Test
@@ -54,6 +93,9 @@ class BillionaireServiceTest {
         private final BillionaireRepository billionaireRepository = mock(BillionaireRepository.class);
         private Billionaire expected;
         private Billionaire actual;
+        private List<Billionaire> expectedList;
+        private List<Billionaire> actualList;
+        private Exception actualException;
 
         Dsl() {
             subject = new BillionaireService(billionaireRepository);
@@ -63,8 +105,25 @@ class BillionaireServiceTest {
             return new BillionaireDsl();
         }
 
+        Dsl emptyData() {
+            actualList = new ArrayList<>();
+
+            Mockito.when(billionaireRepository.findAll()).thenReturn(Collections.emptyList());
+
+            return this;
+        }
+
         Dsl when(Function<Long, Billionaire> function, long billionaireId) {
-            actual = function.apply(billionaireId);
+            try {
+                actual = function.apply(billionaireId);
+            } catch(Exception exception) {
+                actualException = exception;
+            }
+            return this;
+        }
+
+        Dsl when(Supplier<List<Billionaire>> supplier) {
+            actualList = supplier.get();
             return this;
         }
 
@@ -77,12 +136,11 @@ class BillionaireServiceTest {
             BillionaireDsl() {
                 expected = new Billionaire();
 
-                Mockito.when(billionaireRepository.findById(anyLong())).thenReturn(Optional.of(expected));
+                Mockito.when(billionaireRepository.findAll()).thenReturn(expectedList);
             }
 
-            BillionaireDsl id(Long id) {
-                expected.setId(id);
-                return this;
+            BillionaireId id(Long id) {
+                return new BillionaireId(id);
             }
 
             BillionaireDsl firstName(String firstName) {
@@ -100,8 +158,39 @@ class BillionaireServiceTest {
                 return this;
             }
 
+            Dsl save() {
+                if (Objects.isNull(expectedList)) {
+                    expectedList = new ArrayList<>();
+                }
+
+                expectedList.add(expected);
+                return Dsl.this;
+            }
+
             Dsl end() {
                 return Dsl.this;
+            }
+
+            class BillionaireId {
+
+                BillionaireId(Long id) {
+                    expected.setId(id);
+                }
+
+                BillionaireId notFound() {
+                    Mockito.when(billionaireRepository.findById(expected.getId())).thenReturn(Optional.empty());
+                    return this;
+                }
+
+                BillionaireDsl ok() {
+                    Mockito.when(billionaireRepository.findById(expected.getId())).thenReturn(Optional.of(expected));
+                    return BillionaireDsl.this;
+                }
+
+                Dsl end() {
+                    return Dsl.this;
+                }
+
             }
 
         }
@@ -110,6 +199,14 @@ class BillionaireServiceTest {
 
             BillionaireDslAsserter asserter() {
                 return new BillionaireDslAsserter();
+            }
+
+            ExceptionDslAsserter exceptionAsserter() {
+                return new ExceptionDslAsserter();
+            }
+
+            ListAsserter listAsserter() {
+                return new ListAsserter();
             }
 
             class BillionaireDslAsserter {
@@ -131,6 +228,27 @@ class BillionaireServiceTest {
 
                 void careerIsEqualTo(String expectedBillionaireCareer) {
                     assertThat(actual.getCareer()).isEqualTo(expectedBillionaireCareer);
+                }
+
+            }
+
+            class ExceptionDslAsserter {
+
+                ExceptionDslAsserter isInstanceOf(Class<? extends Exception> expectedException) {
+                    assertThat(actualException).isInstanceOf(expectedException);
+                    return this;
+                }
+
+                void messageIsEqualTo(String expectedMessage) {
+                    assertThat(actualException.getMessage()).isEqualTo(expectedMessage);
+                }
+
+            }
+
+            class ListAsserter {
+
+                void sizeIsEqualTo(int expectedSize) {
+                    assertThat(actualList).hasSize(expectedSize);
                 }
 
             }
