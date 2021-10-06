@@ -11,11 +11,16 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 class BillionaireServiceTest {
 
@@ -43,9 +48,9 @@ class BillionaireServiceTest {
     void givenAInvalidBillionaireId_whenFindBillionaireById_thenThrowEntityNotFoundException() {
         given()
             .billionaire()
-                .id(1L).notFound()
+                .id(2L).notFound()
             .end()
-        .when(subject::findById, 1L)
+        .when(subject::findById, 2L)
         .then()
             .exceptionAsserter()
                 .isInstanceOf(EntityNotFoundException.class)
@@ -78,11 +83,31 @@ class BillionaireServiceTest {
     }
 
     @Test
-    void save() {
+    void givenANewBillionaire_whenSave_thenReturnASameBillionaireSaved() {
+        given()
+            .billionaire()
+                .firstName("Richard")
+                .lastName("Brand")
+                .career("Software Engineering")
+            .end()
+        .when(subject::save)
+        .then()
+            .asserter()
+                .firstNameIsEqualTo("Richard")
+                .lastNameIsEqualTo("Brand")
+                .careerIsEqualTo("Software Engineering");
     }
 
     @Test
-    void delete() {
+    void givenAValidBillionaire_whenDelete_thenRepositoryDeleteMethodHasCalledOneTimes() {
+        given()
+            .billionaire()
+                .id(1L).ok()
+            .end()
+        .when(subject::delete)
+        .then()
+            .asserter()
+                .verifyRepositoryDeleteMethodHasCalled();
     }
 
     Dsl given() {
@@ -127,6 +152,16 @@ class BillionaireServiceTest {
             return this;
         }
 
+        Dsl when(Function<Billionaire, Billionaire> function) {
+            actual = function.apply(expected);
+            return this;
+        }
+
+        Dsl when(Consumer<Billionaire> consumer) {
+            consumer.accept(expected);
+            return this;
+        }
+
         DslAsserter then() {
             return new DslAsserter();
         }
@@ -137,6 +172,8 @@ class BillionaireServiceTest {
                 expected = new Billionaire();
 
                 Mockito.when(billionaireRepository.findAll()).thenReturn(expectedList);
+                Mockito.when(billionaireRepository.save(any(Billionaire.class))).thenReturn(expected);
+                doNothing().when(billionaireRepository).delete(expected);
             }
 
             BillionaireId id(Long id) {
@@ -228,6 +265,10 @@ class BillionaireServiceTest {
 
                 void careerIsEqualTo(String expectedBillionaireCareer) {
                     assertThat(actual.getCareer()).isEqualTo(expectedBillionaireCareer);
+                }
+
+                void verifyRepositoryDeleteMethodHasCalled() {
+                    verify(billionaireRepository, times(1)).delete(expected);
                 }
 
             }
