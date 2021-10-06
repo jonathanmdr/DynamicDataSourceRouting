@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import static br.com.multidatasources.multidatasources.config.datasource.MasterDataSourceConfiguration.MASTER_DATA_SOURCE_QUALIFIER;
@@ -34,12 +33,6 @@ public class FlywayConfiguration {
                 .schemas(flywayProperties.getSchemaName())
                 .target(MigrationVersion.LATEST)
                 .load();
-    }
-
-    @PostConstruct
-    public void migrate() {
-        Flyway flyway = flyway();
-        flyway.migrate();
     }
 
 }
