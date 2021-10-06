@@ -54,7 +54,7 @@ class BillionaireServiceTest {
         .then()
             .exceptionAsserter()
                 .isInstanceOf(EntityNotFoundException.class)
-                .messageIsEqualTo("Register with id 1 not found");
+                .messageIsEqualTo("Register with id 2 not found");
     }
 
     @Test
