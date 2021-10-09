@@ -11,7 +11,7 @@ public enum DataSourceType {
     READ_WRITE("Master-DB") {
         @Override
         int getDefaultPoolSize() {
-            return Runtime.getRuntime().availableProcessors() * 4;
+            return Runtime.getRuntime().availableProcessors() * 2;
         }
     };
 
