@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import br.com.multidatasources.multidatasources.config.aop.logexecution.LogExecutionTime;
+import br.com.multidatasources.multidatasources.controller.aop.BillionaireControllerAspect;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +28,7 @@ import br.com.multidatasources.multidatasources.service.BillionaireService;
 
 @RestController
 @RequestMapping("/billionaires")
-public class BillionaireController {
+public class BillionaireController implements BillionaireControllerAspect {
 
     private final BillionaireService billionaireService;
     private final BillionaireMapper billionaireMapper;
@@ -37,18 +39,21 @@ public class BillionaireController {
     }
 
     @GetMapping
+    @Override
     public ResponseEntity<List<BillionaireOutputDto>> findAll() {
         List<BillionaireOutputDto> responseBody = billionaireMapper.toCollectionDto(billionaireService.findAll());
         return ResponseEntity.ok(responseBody);
     }
 
     @GetMapping("/{id}")
+    @Override
     public ResponseEntity<BillionaireOutputDto> findById(@PathVariable Long id) {
         BillionaireOutputDto responseBody = billionaireMapper.toDto(billionaireService.findById(id));
         return ResponseEntity.ok(responseBody);
     }
 
     @PostMapping
+    @Override
     public ResponseEntity<BillionaireOutputDto> save(@Valid @RequestBody BillionaireInputDto billionairesInputDto) {
         Billionaire billionaires = billionaireMapper.toModel(billionairesInputDto);
         BillionaireOutputDto responseBody = billionaireMapper.toDto(billionaireService.save(billionaires));
@@ -56,6 +61,7 @@ public class BillionaireController {
     }
 
     @PutMapping("/{id}")
+    @Override
     public ResponseEntity<BillionaireOutputDto> update(@PathVariable Long id, @Valid @RequestBody BillionaireInputDto billionairesInputDto) {
         Billionaire billionaires = billionaireService.findById(id);
 
@@ -67,6 +73,7 @@ public class BillionaireController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
+    @Override
     public void delete(@PathVariable Long id) {
         Billionaire billionaires = billionaireService.findById(id);
         billionaireService.delete(billionaires);
