@@ -13,7 +13,7 @@ Esta arquitetura consiste em diminuir a concorrência entre transações da API 
 </br>
 
 [![node](https://img.shields.io/badge/AdoptOpenJDK-11.0.11+9-red.svg)](https://adoptopenjdk.net/)
-[![node](https://img.shields.io/badge/Spring_Boot-2.5.1-green.svg)](https://spring.io/)
+[![node](https://img.shields.io/badge/Spring_Boot-2.5.5-green.svg)](https://spring.io/)
 [![node](https://img.shields.io/badge/MySQL-8.0.25-blue.svg)](https://www.mysql.com/)
 
 
