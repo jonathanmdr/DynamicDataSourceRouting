@@ -20,6 +20,9 @@ Esta arquitetura consiste em diminuir a concorrência entre transações da API 
 ## Arquitetura
 [![node](https://github.com/jonathanmdr/RoutingDataSource/blob/master/docs/replication-databases.png)](https://github.com/jonathanmdr/RoutingDataSource/blob/master)
 
+## Documentação
+> :information_source: Após inicializar a aplicação, acesse a documentação clicando neste [link](http://localhost:8080/)
+
 ## Inicializando as bases de dados
 > :warning: É necessário ter instalado `docker` e `docker-compose`.
 
