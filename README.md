@@ -21,7 +21,7 @@ Esta arquitetura consiste em diminuir a concorrência entre transações da API 
 [![node](https://github.com/jonathanmdr/RoutingDataSource/blob/master/docs/replication-databases.png)](https://github.com/jonathanmdr/RoutingDataSource/blob/master)
 
 ## Documentação
-> :information_source: Após inicializar a aplicação, acesse a documentação clicando neste [link](http://localhost:8080/)
+> :information_source: Após inicializar a aplicação, acesse a documentação clicando neste [link](http://localhost:8080/).
 
 ## Inicializando as bases de dados
 > :warning: É necessário ter instalado `docker` e `docker-compose`.
@@ -30,9 +30,9 @@ Esta arquitetura consiste em diminuir a concorrência entre transações da API 
 
 Inicializar:
 ```sh
-~$ docker-compose up -d
+docker-compose up -d
 ```
 Parar:
 ```sh
-~$ docker-compose down --remove-orphans --volume
+docker-compose down --remove-orphans --volume
 ```
