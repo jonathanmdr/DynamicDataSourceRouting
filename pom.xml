@@ -13,9 +13,11 @@
     <artifactId>multidatasources</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>multidatasources</name>
-    
+
     <properties>
         <java.version>11</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
         <modelmapper.version>2.4.4</modelmapper.version>
         <apache-commons-lang3.version>6.5.0.Final</apache-commons-lang3.version>
         <openapi.version>1.5.11</openapi.version>
