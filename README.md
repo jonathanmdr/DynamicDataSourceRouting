@@ -1,4 +1,8 @@
-# Dynamic Data Source Routing        [![CI](https://github.com/jonathanmdr/RoutingDataSource/actions/workflows/maven.yml/badge.svg)](https://github.com/jonathanmdr/RoutingDataSource/actions/workflows/maven.yml)
+# Dynamic Data Source Routing
+
+[![CI](https://github.com/jonathanmdr/RoutingDataSource/actions/workflows/maven.yml/badge.svg)](https://github.com/jonathanmdr/RoutingDataSource/actions/workflows/maven.yml)
+[![CodeFactor](https://www.codefactor.io/repository/github/jonathanmdr/dynamicdatasourcerouting/badge)](https://www.codefactor.io/repository/github/jonathanmdr/dynamicdatasourcerouting)
+
 Exemplo de uma API REST desenvolvida em Java com Spring, o intuito é apresentar uma solução arquitetural para dimensionar operações de leitura com banco de dados, neste exemplo trabalharemos com duas bases de dados, uma base de dados principal e uma réplica.
 </br>
 </br>
