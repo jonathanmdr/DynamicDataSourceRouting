@@ -242,8 +242,8 @@ class BillionaireServiceTest {
                 return new ExceptionDslAsserter();
             }
 
-            ListAsserter listAsserter() {
-                return new ListAsserter();
+            ListDslAsserter listAsserter() {
+                return new ListDslAsserter();
             }
 
             class BillionaireDslAsserter {
@@ -286,7 +286,7 @@ class BillionaireServiceTest {
 
             }
 
-            class ListAsserter {
+            class ListDslAsserter {
 
                 void sizeIsEqualTo(int expectedSize) {
                     assertThat(actualList).hasSize(expectedSize);
