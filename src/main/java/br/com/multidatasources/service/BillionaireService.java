@@ -30,12 +30,12 @@ public class BillionaireService {
         return billionaireRepository.findAll();
     }
 
-    public Billionaire save(Billionaire billionaires) {
-        return billionaireRepository.save(billionaires);
+    public Billionaire save(Billionaire billionaire) {
+        return billionaireRepository.save(billionaire);
     }
 
-    public void delete(Billionaire billionaires) {
-        billionaireRepository.delete(billionaires);
+    public void delete(Billionaire billionaire) {
+        billionaireRepository.delete(billionaire);
     }
 
 }

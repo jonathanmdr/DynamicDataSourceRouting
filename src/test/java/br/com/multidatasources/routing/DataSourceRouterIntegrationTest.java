@@ -1,7 +1,7 @@
 package br.com.multidatasources.routing;
 
-import br.com.multidatasources.model.Billionaire;
 import br.com.multidatasources.MultiDataSourcesApplicationTests;
+import br.com.multidatasources.model.Billionaire;
 import br.com.multidatasources.model.factory.BillionaireBuilder;
 import br.com.multidatasources.service.BillionaireService;
 import org.junit.jupiter.api.Test;
@@ -11,18 +11,18 @@ import org.springframework.dao.DataAccessException;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class DataSourceRouterIntegrationTest extends MultiDataSourcesApplicationTests {
+class DataSourceRouterIntegrationTest extends MultiDataSourcesApplicationTests {
 
     @Autowired
     private BillionaireService billionaireService;
 
     @Test
     void givenAWriteTransaction_whenSave_thenReturnPersistedObjectInTheMasterDatabaseSchema() {
-        Billionaire billionaire = new BillionaireBuilder()
-                                        .firstName("Jonathan")
-                                        .lastName("Henrique")
-                                        .career("Spring Enthusiast.")
-                                        .build();
+        Billionaire billionaire = BillionaireBuilder.builder()
+            .firstName("Jonathan")
+            .lastName("Henrique")
+            .career("Spring Enthusiast.")
+            .build();
 
         Billionaire actual = billionaireService.save(billionaire);
 

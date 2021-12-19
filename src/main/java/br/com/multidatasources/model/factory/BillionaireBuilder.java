@@ -6,8 +6,12 @@ public class BillionaireBuilder {
 
     private final Billionaire billionaire;
 
-    public BillionaireBuilder() {
-        this.billionaire = new Billionaire();
+    private BillionaireBuilder(final Billionaire billionaire) {
+        this.billionaire = billionaire;
+    }
+
+    public static BillionaireBuilder builder() {
+        return new BillionaireBuilder(new Billionaire());
     }
 
     public BillionaireBuilder id(Long id) {

@@ -22,7 +22,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-class BillionaireServiceTest {
+class BillionaireServiceNewTest {
 
     private BillionaireService subject;
 
