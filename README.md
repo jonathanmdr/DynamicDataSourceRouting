@@ -7,7 +7,7 @@ Exemplo de uma API REST desenvolvida em Java com Spring, o intuito é apresentar
 </br>
 </br>
 A ideia é fazer com que a aplicação direcione as transações definidas como `READ_ONLY` para a base de dados réplica e que as transações `READ_WRITE` sejam direcionadas para a base de dados principal.
-</br>
+</br>bla
 </br>
 As imagens e configurações contidas no arquivo `docker-compose.yaml` são específicas para lidar com a replicação de dados.
 </br>
