@@ -15,12 +15,12 @@ public class BillionaireService {
 
     private final BillionaireRepository billionaireRepository;
 
-    public BillionaireService(BillionaireRepository billionairesRepository) {
+    public BillionaireService(final BillionaireRepository billionairesRepository) {
         this.billionaireRepository = billionairesRepository;
     }
 
     @Transactional(readOnly = true)
-    public Billionaire findById(Long id) {
+    public Billionaire findById(final Long id) {
         return billionaireRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.format("Register with id %s not found", id)));
     }
@@ -30,11 +30,11 @@ public class BillionaireService {
         return billionaireRepository.findAll();
     }
 
-    public Billionaire save(Billionaire billionaire) {
+    public Billionaire save(final Billionaire billionaire) {
         return billionaireRepository.save(billionaire);
     }
 
-    public void delete(Billionaire billionaire) {
+    public void delete(final Billionaire billionaire) {
         billionaireRepository.delete(billionaire);
     }
 

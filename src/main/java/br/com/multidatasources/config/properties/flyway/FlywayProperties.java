@@ -8,7 +8,7 @@ public class FlywayProperties {
 
     public FlywayProperties() { }
 
-    public FlywayProperties(String schemaName, boolean baselineOnMigrate, String[] locations) {
+    public FlywayProperties(final String schemaName, final boolean baselineOnMigrate, final String[] locations) {
         this.schemaName = schemaName;
         this.baselineOnMigrate = baselineOnMigrate;
         this.locations = locations;
@@ -18,7 +18,7 @@ public class FlywayProperties {
         return schemaName;
     }
 
-    public void setSchemaName(String schemaName) {
+    public void setSchemaName(final String schemaName) {
         this.schemaName = schemaName;
     }
 
@@ -26,7 +26,7 @@ public class FlywayProperties {
         return baselineOnMigrate;
     }
 
-    public void setBaselineOnMigrate(boolean baselineOnMigrate) {
+    public void setBaselineOnMigrate(final boolean baselineOnMigrate) {
         this.baselineOnMigrate = baselineOnMigrate;
     }
 
@@ -34,7 +34,7 @@ public class FlywayProperties {
         return locations;
     }
 
-    public void setLocations(String[] locations) {
+    public void setLocations(final String[] locations) {
         this.locations = locations;
     }
 

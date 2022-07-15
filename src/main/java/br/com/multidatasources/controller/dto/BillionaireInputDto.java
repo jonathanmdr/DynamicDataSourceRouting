@@ -15,7 +15,7 @@ public class BillionaireInputDto {
 
     public BillionaireInputDto() { }
 
-    public BillionaireInputDto(String firstName, String lastName, String career) {
+    public BillionaireInputDto(final String firstName, final String lastName, final String career) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.career = career;
@@ -25,7 +25,7 @@ public class BillionaireInputDto {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public void setFirstName(final String firstName) {
         this.firstName = firstName;
     }
 
@@ -33,7 +33,7 @@ public class BillionaireInputDto {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
+    public void setLastName(final String lastName) {
         this.lastName = lastName;
     }
 
@@ -41,7 +41,7 @@ public class BillionaireInputDto {
         return career;
     }
 
-    public void setCareer(String career) {
+    public void setCareer(final String career) {
         this.career = career;
     }
 

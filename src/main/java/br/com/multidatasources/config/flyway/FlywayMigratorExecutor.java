@@ -10,7 +10,7 @@ public class FlywayMigratorExecutor {
 
     private final Flyway flyway;
 
-    public FlywayMigratorExecutor(Flyway flyway) {
+    public FlywayMigratorExecutor(final Flyway flyway) {
         this.flyway = flyway;
     }
 

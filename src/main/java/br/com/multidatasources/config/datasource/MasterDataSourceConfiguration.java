@@ -26,7 +26,7 @@ public class MasterDataSourceConfiguration implements DataSourceConfiguration {
     }
 
     @Bean(name = MASTER_DATA_SOURCE_QUALIFIER)
-    public DataSource masterDataSource(@Qualifier(MASTER_PROPERTIES_QUALIFIER) DatabaseConnectionProperties properties) {
+    public DataSource masterDataSource(@Qualifier(MASTER_PROPERTIES_QUALIFIER) final DatabaseConnectionProperties properties) {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
         dataSource.setUrl(properties.getUrl());

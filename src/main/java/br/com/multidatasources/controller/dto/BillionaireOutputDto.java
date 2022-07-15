@@ -9,7 +9,7 @@ public class BillionaireOutputDto {
 
     public BillionaireOutputDto() { }
 
-    public BillionaireOutputDto(Long id, String firstName, String lastName, String career) {
+    public BillionaireOutputDto(final Long id, final String firstName, final String lastName, final String career) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

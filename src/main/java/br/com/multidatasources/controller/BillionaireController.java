@@ -31,7 +31,7 @@ public class BillionaireController {
     private final BillionaireService billionaireService;
     private final BillionaireMapper billionaireMapper;
 
-    public BillionaireController(BillionaireService billionaireService, BillionaireMapper billionaireMapper) {
+    public BillionaireController(final BillionaireService billionaireService, final BillionaireMapper billionaireMapper) {
         this.billionaireService = billionaireService;
         this.billionaireMapper = billionaireMapper;
     }
@@ -43,20 +43,20 @@ public class BillionaireController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BillionaireOutputDto> findById(@PathVariable Long id) {
+    public ResponseEntity<BillionaireOutputDto> findById(@PathVariable final Long id) {
         BillionaireOutputDto responseBody = billionaireMapper.toDto(billionaireService.findById(id));
         return ResponseEntity.ok(responseBody);
     }
 
     @PostMapping
-    public ResponseEntity<BillionaireOutputDto> save(@Valid @RequestBody BillionaireInputDto billionairesInputDto) {
+    public ResponseEntity<BillionaireOutputDto> save(@Valid @RequestBody final BillionaireInputDto billionairesInputDto) {
         Billionaire billionaires = billionaireMapper.toModel(billionairesInputDto);
         BillionaireOutputDto responseBody = billionaireMapper.toDto(billionaireService.save(billionaires));
         return ResponseEntity.created(ResourceUriHelper.getUri(responseBody.getId())).body(responseBody);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BillionaireOutputDto> update(@PathVariable Long id, @Valid @RequestBody BillionaireInputDto billionairesInputDto) {
+    public ResponseEntity<BillionaireOutputDto> update(@PathVariable final Long id, @Valid @RequestBody final BillionaireInputDto billionairesInputDto) {
         Billionaire billionaires = billionaireService.findById(id);
 
         BeanUtils.copyProperties(billionairesInputDto, billionaires, "id");
@@ -67,7 +67,7 @@ public class BillionaireController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable final Long id) {
         Billionaire billionaires = billionaireService.findById(id);
         billionaireService.delete(billionaires);
     }

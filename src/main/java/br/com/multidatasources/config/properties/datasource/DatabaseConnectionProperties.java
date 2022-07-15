@@ -8,7 +8,7 @@ public class DatabaseConnectionProperties {
 
     public DatabaseConnectionProperties() { }
 
-    public DatabaseConnectionProperties(String url, String username, String password) {
+    public DatabaseConnectionProperties(final String url, final String username, final String password) {
         this.url = url;
         this.username = username;
         this.password = password;
@@ -18,7 +18,7 @@ public class DatabaseConnectionProperties {
         return url;
     }
 
-    public void setUrl(String url) {
+    public void setUrl(final String url) {
         this.url = url;
     }
 
@@ -26,7 +26,7 @@ public class DatabaseConnectionProperties {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(final String username) {
         this.username = username;
     }
 
@@ -34,7 +34,7 @@ public class DatabaseConnectionProperties {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(final String password) {
         this.password = password;
     }
 

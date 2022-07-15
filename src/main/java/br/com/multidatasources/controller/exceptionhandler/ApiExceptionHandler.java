@@ -24,13 +24,13 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import javax.persistence.EntityNotFoundException;
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
-    public static final String GENERIC_ERROR_MESSAGE = "An unexpected internal error has occurred. "
-            + "Try again later, if the problem persists, please contact the system administrator.";
+    public static final String GENERIC_ERROR_MESSAGE = "An unexpected internal error has occurred. Try again later, if the problem persists, please contact the system administrator.";
 
     private final MessageSource messageSource;
 
@@ -65,7 +65,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        String detail = String.format("The resource '%s' not found.", ex.getRequestURL());
+        String detail = "The resource '%s' not found.".formatted(ex.getRequestURL());
 
         ApiError error = createApiError(status, detail);
         error.setUserMessage(GENERIC_ERROR_MESSAGE);
@@ -75,8 +75,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        if (ex instanceof MethodArgumentTypeMismatchException) {
-            return handleMethodArgumentTypeMismatchException((MethodArgumentTypeMismatchException) ex, headers, status, request);
+        if (ex instanceof MethodArgumentTypeMismatchException methodArgumentTypeMismatchException) {
+            return handleMethodArgumentTypeMismatchException(methodArgumentTypeMismatchException, headers, status, request);
         }
 
         return super.handleTypeMismatch(ex, headers, status, request);
@@ -86,12 +86,16 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         Throwable rootCause = ExceptionUtils.getRootCause(ex);
 
-        if (rootCause instanceof InvalidFormatException) {
-            return handleInvalidFormatException((InvalidFormatException) rootCause, headers, status, request);
-        } else if (rootCause instanceof PropertyBindingException) {
-            return handlePropertyBindingException((PropertyBindingException) rootCause, headers, status, request);
-        } else if (rootCause instanceof MethodArgumentTypeMismatchException) {
-            return handleMethodArgumentTypeMismatchException((MethodArgumentTypeMismatchException) rootCause, headers, status, request);
+        if (rootCause instanceof InvalidFormatException invalidFormatException) {
+            return handleInvalidFormatException(invalidFormatException, headers, status, request);
+        }
+
+        if (rootCause instanceof PropertyBindingException propertyBindingException) {
+            return handlePropertyBindingException(propertyBindingException, headers, status, request);
+        }
+
+        if (rootCause instanceof MethodArgumentTypeMismatchException methodArgumentTypeMismatchException) {
+            return handleMethodArgumentTypeMismatchException(methodArgumentTypeMismatchException, headers, status, request);
         }
 
         ApiError error = createApiError(status, "The request body is invalid. Verify syntax error.");
@@ -107,8 +111,12 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     private ResponseEntity<Object> handleInvalidFormatException(InvalidFormatException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         String path = joinPath(ex.getPath());
-        String detail = String.format("The property '%s' received value '%s', which is an invalid value."
-                        + " Inform the compatible value with data type %s.", path, ex.getValue(), ex.getTargetType().getSimpleName());
+        String detail = "The property '%s' received value '%s', which is an invalid value. Inform the compatible value with data type %s."
+            .formatted(
+                path,
+                ex.getValue(),
+                ex.getTargetType().getSimpleName()
+            );
 
         ApiError error = createApiError(status, detail);
         error.setUserMessage(GENERIC_ERROR_MESSAGE);
@@ -118,7 +126,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     private ResponseEntity<Object> handlePropertyBindingException(PropertyBindingException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         String path = joinPath(ex.getPath());
-        String detail = String.format("Property '%s' not found.", path);
+        String detail = "Property '%s' not found.".formatted(path);
 
         ApiError error = createApiError(status, detail);
         error.setUserMessage(GENERIC_ERROR_MESSAGE);
@@ -127,8 +135,12 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     private ResponseEntity<Object> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        String detail = String.format("The URL parameter '%s' received value '%s', which is an invalid value."
-                        + " Inform the compatible value with data type %s.", ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName());
+        String detail = "The URL parameter '%s' received value '%s', which is an invalid value. Inform the compatible value with data type %s."
+            .formatted(
+                ex.getName(),
+                ex.getValue(),
+                Objects.requireNonNull(ex.getRequiredType()).getSimpleName()
+            );
 
         ApiError error = createApiError(status, detail);
         error.setUserMessage(GENERIC_ERROR_MESSAGE);
@@ -146,13 +158,13 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
                     String name = objectError.getObjectName();
 
-                    if (objectError instanceof FieldError) {
-                        name = ((FieldError) objectError).getField();
+                    if (objectError instanceof FieldError fieldError) {
+                        name = fieldError.getField();
                     }
 
                     return new ApiError.FieldError(name, message);
                 })
-                .collect(Collectors.toList());
+                .toList();
 
         ApiError error = createApiError(status, detail);
         error.setUserMessage(detail);

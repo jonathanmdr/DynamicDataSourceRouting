@@ -1,14 +1,12 @@
 package br.com.multidatasources.controller.mapper;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
+import br.com.multidatasources.controller.dto.BillionaireInputDto;
+import br.com.multidatasources.controller.dto.BillionaireOutputDto;
 import br.com.multidatasources.model.Billionaire;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
-import br.com.multidatasources.controller.dto.BillionaireInputDto;
-import br.com.multidatasources.controller.dto.BillionaireOutputDto;
+import java.util.List;
 
 @Component
 public class BillionaireMapper {
@@ -30,7 +28,7 @@ public class BillionaireMapper {
     public List<BillionaireOutputDto> toCollectionDto(List<Billionaire> modelList) {
         return modelList.stream()
                 .map(this::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
 }

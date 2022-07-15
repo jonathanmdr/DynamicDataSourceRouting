@@ -16,8 +16,9 @@ public class FlywayConfiguration {
     private final DataSource dataSource;
     private final FlywayProperties flywayProperties;
 
-    public FlywayConfiguration(@Qualifier(MasterDataSourceConfiguration.MASTER_DATA_SOURCE_QUALIFIER) DataSource dataSource,
-                               FlywayProperties flywayProperties
+    public FlywayConfiguration(
+        @Qualifier(MasterDataSourceConfiguration.MASTER_DATA_SOURCE_QUALIFIER) final DataSource dataSource,
+        final FlywayProperties flywayProperties
     ) {
         this.dataSource = dataSource;
         this.flywayProperties = flywayProperties;

@@ -19,12 +19,12 @@ public class DataSourceRoutingConfiguration {
     @Bean
     @Primary
     public TransactionRoutingDataSource routingDataSource(
-            @Qualifier(MASTER_DATA_SOURCE_QUALIFIER) DataSource masterDataSource,
-            @Qualifier(SLAVE_DATA_SOURCE_QUALIFIER) DataSource slaveDataSource
+            @Qualifier(MASTER_DATA_SOURCE_QUALIFIER) final DataSource masterDataSource,
+            @Qualifier(SLAVE_DATA_SOURCE_QUALIFIER) final DataSource slaveDataSource
     ) {
-        TransactionRoutingDataSource routingDataSource = new TransactionRoutingDataSource();
+        final TransactionRoutingDataSource routingDataSource = new TransactionRoutingDataSource();
 
-        Map<Object, Object> dataSourceMap = new HashMap<>();
+        final Map<Object, Object> dataSourceMap = new HashMap<>();
         dataSourceMap.put(DataSourceType.READ_WRITE, masterDataSource);
         dataSourceMap.put(DataSourceType.READ_ONLY, slaveDataSource);
 

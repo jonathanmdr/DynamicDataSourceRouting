@@ -17,7 +17,7 @@ public enum DataSourceType {
 
     private final String poolName;
 
-    DataSourceType(String poolName) {
+    DataSourceType(final String poolName) {
         this.poolName = poolName;
     }
 

@@ -25,7 +25,7 @@ public class Billionaire {
     
     public Billionaire() { }
 
-    public Billionaire(Long id, String firstName, String lastName, String career) {
+    public Billionaire(final Long id, final String firstName, final String lastName, final String career) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -36,7 +36,7 @@ public class Billionaire {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -44,7 +44,7 @@ public class Billionaire {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public void setFirstName(final String firstName) {
         this.firstName = firstName;
     }
 
@@ -52,7 +52,7 @@ public class Billionaire {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
+    public void setLastName(final String lastName) {
         this.lastName = lastName;
     }
 
@@ -60,7 +60,7 @@ public class Billionaire {
         return career;
     }
 
-    public void setCareer(String career) {
+    public void setCareer(final String career) {
         this.career = career;
     }
 

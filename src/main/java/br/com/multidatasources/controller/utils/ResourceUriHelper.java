@@ -4,7 +4,7 @@ import java.net.URI;
 
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-public class ResourceUriHelper {
+public final class ResourceUriHelper {
 
     private ResourceUriHelper() { }
 

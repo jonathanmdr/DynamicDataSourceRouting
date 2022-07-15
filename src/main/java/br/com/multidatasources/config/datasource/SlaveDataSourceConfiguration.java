@@ -1,6 +1,5 @@
 package br.com.multidatasources.config.datasource;
 
-import br.com.multidatasources.config.properties.datasource.DataSourceConnectionPropertiesConfiguration;
 import br.com.multidatasources.config.properties.datasource.DatabaseConnectionProperties;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -8,6 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
+
+import static br.com.multidatasources.config.properties.datasource.DataSourceConnectionPropertiesConfiguration.SLAVE_PROPERTIES_QUALIFIER;
 
 @Configuration
 public class SlaveDataSourceConfiguration implements DataSourceConfiguration {
@@ -25,7 +26,7 @@ public class SlaveDataSourceConfiguration implements DataSourceConfiguration {
     }
 
     @Bean(name = SLAVE_DATA_SOURCE_QUALIFIER)
-    public DataSource slaveDataSource(@Qualifier(DataSourceConnectionPropertiesConfiguration.SLAVE_PROPERTIES_QUALIFIER) DatabaseConnectionProperties properties) {
+    public DataSource slaveDataSource(@Qualifier(SLAVE_PROPERTIES_QUALIFIER) final DatabaseConnectionProperties properties) {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
         dataSource.setUrl(properties.getUrl());

@@ -1,10 +1,10 @@
 package br.com.multidatasources.controller.exceptionhandler;
 
-import java.time.OffsetDateTime;
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+import java.time.OffsetDateTime;
+import java.util.List;
 
 @JsonInclude(Include.NON_NULL)
 public class ApiError {
@@ -21,7 +21,7 @@ public class ApiError {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(final Integer status) {
         this.status = status;
     }
 
@@ -29,7 +29,7 @@ public class ApiError {
         return timestamp;
     }
 
-    public void setTimestamp(OffsetDateTime timestamp) {
+    public void setTimestamp(final OffsetDateTime timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -37,7 +37,7 @@ public class ApiError {
         return detail;
     }
 
-    public void setDetail(String detail) {
+    public void setDetail(final String detail) {
         this.detail = detail;
     }
 
@@ -45,7 +45,7 @@ public class ApiError {
         return userMessage;
     }
 
-    public void setUserMessage(String userMessage) {
+    public void setUserMessage(final String userMessage) {
         this.userMessage = userMessage;
     }
 
@@ -53,27 +53,15 @@ public class ApiError {
         return fields;
     }
 
-    public void setFields(List<FieldError> fields) {
+    public void setFields(final List<FieldError> fields) {
         this.fields = fields;
     }
 
-    public static class FieldError {
+    public record FieldError(
+        String name,
+        String userMessage
+    ) {
 
-        private String name;
-        private String userMessage;
-        
-        public FieldError(String name, String userMessage) {
-            this.name = name;
-            this.userMessage = userMessage;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String getUserMessage() {
-            return userMessage;
-        }
     }
 
 }
