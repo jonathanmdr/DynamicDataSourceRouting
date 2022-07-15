@@ -21,8 +21,23 @@ public class SlaveDataSourceConfiguration implements DataSourceConfiguration {
     }
 
     @Override
+    public int getMinimumIdle() {
+        return DataSourceType.READ_ONLY.getMinimumIdle();
+    }
+
+    @Override
     public int getMaximumPoolSize() {
-        return DataSourceType.READ_ONLY.getDefaultPoolSize();
+        return DataSourceType.READ_ONLY.getMaximumPoolSize();
+    }
+
+    @Override
+    public long getConnectionTimeout() {
+        return DataSourceType.READ_ONLY.getConnectionTimeout();
+    }
+
+    @Override
+    public long getMaxLifetime() {
+        return DataSourceType.READ_ONLY.getMaxLifetime();
     }
 
     @Bean(name = SLAVE_DATA_SOURCE_QUALIFIER)

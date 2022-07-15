@@ -21,8 +21,23 @@ public class MasterDataSourceConfiguration implements DataSourceConfiguration {
     }
 
     @Override
+    public int getMinimumIdle() {
+        return DataSourceType.READ_WRITE.getMinimumIdle();
+    }
+
+    @Override
     public int getMaximumPoolSize() {
-        return DataSourceType.READ_WRITE.getDefaultPoolSize();
+        return DataSourceType.READ_WRITE.getMaximumPoolSize();
+    }
+
+    @Override
+    public long getConnectionTimeout() {
+        return DataSourceType.READ_WRITE.getConnectionTimeout();
+    }
+
+    @Override
+    public long getMaxLifetime() {
+        return DataSourceType.READ_WRITE.getMaxLifetime();
     }
 
     @Bean(name = MASTER_DATA_SOURCE_QUALIFIER)

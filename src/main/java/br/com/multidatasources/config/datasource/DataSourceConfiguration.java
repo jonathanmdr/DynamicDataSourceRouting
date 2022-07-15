@@ -9,17 +9,26 @@ public interface DataSourceConfiguration {
 
     String getPoolName();
 
+    int getMinimumIdle();
+
     int getMaximumPoolSize();
 
-    default HikariDataSource definePoolDataSourceConnection(DataSource dataSource) {
+    long getConnectionTimeout();
+
+    long getMaxLifetime();
+
+    default HikariDataSource definePoolDataSourceConnection(final DataSource dataSource) {
         return new HikariDataSource(hikariConfig(dataSource));
     }
 
-    private HikariConfig hikariConfig(DataSource dataSource) {
-        HikariConfig hikariConfig = new HikariConfig();
+    private HikariConfig hikariConfig(final DataSource dataSource) {
+        final HikariConfig hikariConfig = new HikariConfig();
 
         hikariConfig.setPoolName(getPoolName());
         hikariConfig.setMaximumPoolSize(getMaximumPoolSize());
+        hikariConfig.setMinimumIdle(getMinimumIdle());
+        hikariConfig.setConnectionTimeout(getConnectionTimeout());
+        hikariConfig.setMaxLifetime(getMaxLifetime());
         hikariConfig.setDataSource(dataSource);
         hikariConfig.setAutoCommit(false);
 

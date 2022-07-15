@@ -4,14 +4,44 @@ public enum DataSourceType {
 
     READ_ONLY("Slave-DB") {
         @Override
-        int getDefaultPoolSize() {
+        public int getMinimumIdle() {
+            return Runtime.getRuntime().availableProcessors();
+        }
+
+        @Override
+        public int getMaximumPoolSize() {
             return Runtime.getRuntime().availableProcessors() * 4;
+        }
+
+        @Override
+        public long getConnectionTimeout() {
+            return 250;
+        }
+
+        @Override
+        public long getMaxLifetime() {
+            return 600000;
         }
     },
     READ_WRITE("Master-DB") {
         @Override
-        int getDefaultPoolSize() {
+        public int getMinimumIdle() {
+            return Runtime.getRuntime().availableProcessors();
+        }
+
+        @Override
+        public int getMaximumPoolSize() {
             return Runtime.getRuntime().availableProcessors() * 2;
+        }
+
+        @Override
+        public long getConnectionTimeout() {
+            return 250;
+        }
+
+        @Override
+        public long getMaxLifetime() {
+            return 600000;
         }
     };
 
@@ -25,6 +55,12 @@ public enum DataSourceType {
         return this.poolName;
     }
 
-    abstract int getDefaultPoolSize();
+    public abstract int getMinimumIdle();
+
+    public abstract int getMaximumPoolSize();
+
+    public abstract long getConnectionTimeout();
+
+    public abstract long getMaxLifetime();
 
 }
