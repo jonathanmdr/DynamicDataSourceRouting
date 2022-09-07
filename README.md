@@ -22,7 +22,7 @@ Esta arquitetura consiste em diminuir a concorrência entre transações da API 
 
 
 ## Arquitetura
-[![node](https://github.com/jonathanmdr/RoutingDataSource/blob/master/docs/replication-databases.png)](https://github.com/jonathanmdr/RoutingDataSource/blob/master)
+[![node](https://github.com/jonathanmdr/RoutingDataSource/blob/master/docs/replication-databases.png)](https://github.com/jonathanmdr/RoutingDataSource/blob/master/docs/replication-databases.png)
 
 ## Documentação
 > :information_source: Após inicializar a aplicação, acesse a documentação clicando neste [link](http://localhost:8080/).
