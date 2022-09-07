@@ -1,6 +1,6 @@
 package br.com.multidatasources.controller;
 
-import br.com.multidatasources.config.aop.LogExecutionTime;
+import br.com.multidatasources.config.aop.OTelSpannerCustom;
 import br.com.multidatasources.controller.dto.BillionaireInputDto;
 import br.com.multidatasources.controller.dto.BillionaireOutputDto;
 import br.com.multidatasources.controller.mapper.BillionaireMapper;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.List;
 
-@LogExecutionTime
+@OTelSpannerCustom
 @RestController
 @RequestMapping("/billionaires")
 public class BillionaireController {

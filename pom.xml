@@ -21,6 +21,7 @@
         <modelmapper.version>3.1.0</modelmapper.version>
         <apache-commons-lang3.version>3.12.0</apache-commons-lang3.version>
         <openapi.version>1.6.9</openapi.version>
+        <opentelemetry.version>1.17.0</opentelemetry.version>
     </properties>
     
     <dependencies>
@@ -92,6 +93,37 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <!-- REQUIRED TO AUTO INSTRUMENTATION -->
+        <dependency>
+            <groupId>io.opentelemetry.javaagent</groupId>
+            <artifactId>opentelemetry-javaagent</artifactId>
+            <version>${opentelemetry.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- REQUIRED TO CUSTOM INSTRUMENTATION -->
+        <dependency>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-bom</artifactId>
+            <version>${opentelemetry.version}</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-exporter-otlp</artifactId>
+            <version>${opentelemetry.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-api</artifactId>
+            <version>${opentelemetry.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-sdk</artifactId>
+            <version>${opentelemetry.version}</version>
         </dependency>
     </dependencies>
 

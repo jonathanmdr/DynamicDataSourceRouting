@@ -1,9 +1,23 @@
-version: "3.7"
+version: "3.8"
 
 services:
+  api:
+    container_name: api
+    restart: "no"
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+    networks:
+      - multi-data-sources
+    depends_on:
+      - master-db
+      - slave-db
+
   master-db:
     image: docker.io/bitnami/mysql:8.0
     container_name: master-db
+    restart: "no"
     ports:
       - "3306:3306"
     networks:
@@ -26,6 +40,7 @@ services:
   slave-db:
     image: docker.io/bitnami/mysql:8.0
     container_name: slave-db
+    restart: "no"
     ports:
       - "3307:3306"
     networks:
@@ -46,6 +61,28 @@ services:
       interval: 15s
       timeout: 5s
       retries: 6
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: jaeger
+    restart: "no"
+    ports:
+      # Agent Zipkin Compact
+      - "5775:5775/udp"
+      # Agent Jaeger Compact
+      - "6831:6831/udp"
+      # Agent Jaeger Binary
+      - "6832:6832/udp"
+      # Agent Configuration HTTP
+      - "5778:5778"
+      # Web Interface
+      - "16686:16686"
+      # Collector HTTP
+      - "14268:14268"
+      # Collector gRPC
+      - "14250:14250"
+    networks:
+      - multi-data-sources
 
 networks:
   multi-data-sources:
