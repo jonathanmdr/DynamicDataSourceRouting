@@ -1,18 +1,18 @@
 version: "3.8"
 
 services:
-  api:
-    container_name: api
-    restart: "no"
-    build:
-      context: .
-    ports:
-      - "8080:8080"
-    networks:
-      - multi-data-sources
-    depends_on:
-      - master-db
-      - slave-db
+#  api:
+#    container_name: api
+#    restart: "no"
+#    build:
+#      context: .
+#    ports:
+#      - "8080:8080"
+#    networks:
+#      - multi-data-sources
+#    depends_on:
+#      - master-db
+#      - slave-db
 
   master-db:
     image: docker.io/bitnami/mysql:8.0

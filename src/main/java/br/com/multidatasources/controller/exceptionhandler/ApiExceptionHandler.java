@@ -21,6 +21,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -41,6 +42,16 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(EntityNotFoundException.class)
     protected ResponseEntity<Object> handleStateNotFoundException(EntityNotFoundException ex, WebRequest request) {
         HttpStatus status = HttpStatus.NOT_FOUND;
+
+        ApiError error = createApiError(status, ex.getMessage());
+        error.setUserMessage(ex.getMessage());
+
+        return super.handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
+    }
+
+    @ExceptionHandler(EntityExistsException.class)
+    protected ResponseEntity<Object> handleStateExistsException(EntityExistsException ex, WebRequest request) {
+        HttpStatus status = HttpStatus.CONFLICT;
 
         ApiError error = createApiError(status, ex.getMessage());
         error.setUserMessage(ex.getMessage());

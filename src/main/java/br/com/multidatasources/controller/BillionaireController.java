@@ -31,7 +31,10 @@ public class BillionaireController {
     private final BillionaireService billionaireService;
     private final BillionaireMapper billionaireMapper;
 
-    public BillionaireController(final BillionaireService billionaireService, final BillionaireMapper billionaireMapper) {
+    public BillionaireController(
+        final BillionaireService billionaireService,
+        final BillionaireMapper billionaireMapper
+    ) {
         this.billionaireService = billionaireService;
         this.billionaireMapper = billionaireMapper;
     }
@@ -50,26 +53,27 @@ public class BillionaireController {
 
     @PostMapping
     public ResponseEntity<BillionaireOutputDto> save(@Valid @RequestBody final BillionaireInputDto billionairesInputDto) {
-        Billionaire billionaires = billionaireMapper.toModel(billionairesInputDto);
-        BillionaireOutputDto responseBody = billionaireMapper.toDto(billionaireService.save(billionaires));
+        Billionaire billionaire = billionaireMapper.toModel(billionairesInputDto);
+
+        BillionaireOutputDto responseBody = billionaireMapper.toDto(billionaireService.save(billionaire));
         return ResponseEntity.created(ResourceUriHelper.getUri(responseBody.getId())).body(responseBody);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<BillionaireOutputDto> update(@PathVariable final Long id, @Valid @RequestBody final BillionaireInputDto billionairesInputDto) {
-        Billionaire billionaires = billionaireService.findById(id);
+        Billionaire billionaire = billionaireService.findById(id);
 
-        BeanUtils.copyProperties(billionairesInputDto, billionaires, "id");
+        BeanUtils.copyProperties(billionairesInputDto, billionaire, "id");
 
-        BillionaireOutputDto responseBody = billionaireMapper.toDto(billionaireService.save(billionaires));
+        BillionaireOutputDto responseBody = billionaireMapper.toDto(billionaireService.save(billionaire));
         return ResponseEntity.ok(responseBody);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void delete(@PathVariable final Long id) {
-        Billionaire billionaires = billionaireService.findById(id);
-        billionaireService.delete(billionaires);
+        Billionaire billionaire = billionaireService.findById(id);
+        billionaireService.delete(billionaire);
     }
 
 }

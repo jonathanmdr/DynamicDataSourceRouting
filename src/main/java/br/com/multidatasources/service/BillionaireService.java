@@ -2,10 +2,12 @@ package br.com.multidatasources.service;
 
 import java.util.List;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 
 import br.com.multidatasources.model.Billionaire;
 import br.com.multidatasources.repository.BillionaireRepository;
+import br.com.multidatasources.service.idempotency.IdempotencyGenerator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,9 +16,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class BillionaireService {
 
     private final BillionaireRepository billionaireRepository;
+    private final IdempotencyGenerator idempotencyGenerator;
 
-    public BillionaireService(final BillionaireRepository billionairesRepository) {
+    public BillionaireService(
+        final BillionaireRepository billionairesRepository,
+        final IdempotencyGenerator idempotencyGenerator
+    ) {
         this.billionaireRepository = billionairesRepository;
+        this.idempotencyGenerator = idempotencyGenerator;
     }
 
     @Transactional(readOnly = true)
@@ -31,6 +38,14 @@ public class BillionaireService {
     }
 
     public Billionaire save(final Billionaire billionaire) {
+        billionaire.generateIdempotencyId(idempotencyGenerator);
+
+        final var exists = billionaireRepository.existsBillionaireByIdempotencyId(billionaire.getIdempotencyId());
+
+        if (exists) {
+            throw new EntityExistsException("Register has exists with idempotency ID: %s".formatted(billionaire.getIdempotencyId()));
+        }
+
         return billionaireRepository.save(billionaire);
     }
 

@@ -3,6 +3,7 @@ package br.com.multidatasources.service;
 import br.com.multidatasources.model.Billionaire;
 import br.com.multidatasources.model.factory.BillionaireBuilder;
 import br.com.multidatasources.repository.BillionaireRepository;
+import br.com.multidatasources.service.idempotency.IdempotencyGenerator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,13 +11,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
@@ -29,6 +33,9 @@ class BillionaireServiceOldTest {
 
     @Mock
     private BillionaireRepository billionaireRepository;
+
+    @Mock
+    private IdempotencyGenerator idempotencyGenerator;
 
     @InjectMocks
     private BillionaireService subject;
@@ -104,11 +111,37 @@ class BillionaireServiceOldTest {
             .career("Software Developer")
             .build();
 
+        final var idempotencyId = UUID.randomUUID();
+
+        when(idempotencyGenerator.generate(any(Billionaire.class))).thenReturn(idempotencyId);
+        when(billionaireRepository.existsBillionaireByIdempotencyId(idempotencyId)).thenReturn(Boolean.FALSE);
         when(billionaireRepository.save(any(Billionaire.class))).thenReturn(expected);
 
         Billionaire actual = subject.save(expected);
 
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+        verify(billionaireRepository, times(1)).save(any(Billionaire.class));
+    }
+
+    @Test
+    void givenAnExistentBillionaire_whenSave_thenThrowsEntityExistsException() {
+        Billionaire expected = BillionaireBuilder.builder()
+            .id(1L)
+            .firstName("John")
+            .lastName("Doe")
+            .career("Software Developer")
+            .build();
+
+        final var idempotencyId = UUID.randomUUID();
+
+        when(idempotencyGenerator.generate(any(Billionaire.class))).thenReturn(idempotencyId);
+        when(billionaireRepository.existsBillionaireByIdempotencyId(idempotencyId)).thenReturn(Boolean.TRUE);
+
+        assertThatThrownBy(() -> subject.save(expected))
+            .isExactlyInstanceOf(EntityExistsException.class)
+            .hasMessage("Register has exists with idempotency ID: %s".formatted(idempotencyId));
+
+        verify(billionaireRepository, times(0)).save(any(Billionaire.class));
     }
 
     @Test

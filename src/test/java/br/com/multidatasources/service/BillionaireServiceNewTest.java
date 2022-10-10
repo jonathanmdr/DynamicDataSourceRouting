@@ -2,15 +2,19 @@ package br.com.multidatasources.service;
 
 import br.com.multidatasources.model.Billionaire;
 import br.com.multidatasources.repository.BillionaireRepository;
+import br.com.multidatasources.service.idempotency.IdempotencyGenerator;
+import br.com.multidatasources.service.idempotency.impl.UUIDIdempotencyGenerator;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -99,6 +103,22 @@ class BillionaireServiceNewTest {
     }
 
     @Test
+    void givenAnExistentBillionaire_whenSave_thenThrowsEntityExistsException() {
+        given()
+            .billionaire()
+                .id(1L).hasExistsOnDatabase()
+                .firstName("Richard")
+                .lastName("Brand")
+                .career("Software Engineering")
+            .end()
+        .when(subject::save)
+        .then()
+            .exceptionAsserter()
+                .isInstanceOf(EntityExistsException.class)
+                .messageIsEqualTo("Register has exists with idempotency ID: c2ea0bd8-516b-34d1-bc47-7645b8c2e524");
+    }
+
+    @Test
     void givenAValidBillionaire_whenDelete_thenRepositoryDeleteMethodHasCalledOneTimes() {
         given()
             .billionaire()
@@ -115,7 +135,8 @@ class BillionaireServiceNewTest {
     }
 
     class Dsl {
-        private final BillionaireRepository billionaireRepository = mock(BillionaireRepository.class);
+        private final BillionaireRepository billionaireRepository;
+        private final IdempotencyGenerator idempotencyGenerator;
         private Billionaire expected;
         private Billionaire actual;
         private List<Billionaire> expectedList;
@@ -123,7 +144,10 @@ class BillionaireServiceNewTest {
         private Exception actualException;
 
         Dsl() {
-            subject = new BillionaireService(billionaireRepository);
+            this.billionaireRepository = mock(BillionaireRepository.class);
+            this.idempotencyGenerator = new UUIDIdempotencyGenerator();
+
+            subject = new BillionaireService(billionaireRepository, idempotencyGenerator);
         }
 
         BillionaireDsl billionaire() {
@@ -141,7 +165,7 @@ class BillionaireServiceNewTest {
         Dsl when(Function<Long, Billionaire> function, long billionaireId) {
             try {
                 actual = function.apply(billionaireId);
-            } catch(Exception exception) {
+            } catch (Exception exception) {
                 actualException = exception;
             }
             return this;
@@ -153,7 +177,11 @@ class BillionaireServiceNewTest {
         }
 
         Dsl when(Function<Billionaire, Billionaire> function) {
-            actual = function.apply(expected);
+            try {
+                actual = function.apply(expected);
+            } catch (Exception exception) {
+                actualException = exception;
+            }
             return this;
         }
 
@@ -174,6 +202,7 @@ class BillionaireServiceNewTest {
                 Mockito.when(billionaireRepository.findAll()).thenReturn(expectedList);
                 Mockito.when(billionaireRepository.save(any(Billionaire.class))).thenReturn(expected);
                 doNothing().when(billionaireRepository).delete(expected);
+                Mockito.when(billionaireRepository.existsBillionaireByIdempotencyId(any(UUID.class))).thenReturn(Boolean.FALSE);
             }
 
             BillionaireId id(Long id) {
@@ -224,6 +253,11 @@ class BillionaireServiceNewTest {
                     return BillionaireDsl.this;
                 }
 
+                BillionaireDsl hasExistsOnDatabase() {
+                    Mockito.when(billionaireRepository.existsBillionaireByIdempotencyId(any(UUID.class))).thenReturn(Boolean.TRUE);
+                    return BillionaireDsl.this;
+                }
+
                 Dsl end() {
                     return Dsl.this;
                 }
@@ -248,23 +282,23 @@ class BillionaireServiceNewTest {
 
             class BillionaireDslAsserter {
 
-                BillionaireDslAsserter idIsEqualTo(Long expectedBillionaireId) {
-                    assertThat(actual.getId()).isEqualTo(expectedBillionaireId);
+                BillionaireDslAsserter idIsEqualTo(final Long expected) {
+                    assertThat(actual.getId()).isEqualTo(expected);
                     return this;
                 }
 
-                BillionaireDslAsserter firstNameIsEqualTo(String expectedBillionaireFirstName) {
-                    assertThat(actual.getFirstName()).isEqualTo(expectedBillionaireFirstName);
+                BillionaireDslAsserter firstNameIsEqualTo(final String expected) {
+                    assertThat(actual.getFirstName()).isEqualTo(expected);
                     return this;
                 }
 
-                BillionaireDslAsserter lastNameIsEqualTo(String expectedBillionaireLastName) {
-                    assertThat(actual.getLastName()).isEqualTo(expectedBillionaireLastName);
+                BillionaireDslAsserter lastNameIsEqualTo(final String expected) {
+                    assertThat(actual.getLastName()).isEqualTo(expected);
                     return this;
                 }
 
-                void careerIsEqualTo(String expectedBillionaireCareer) {
-                    assertThat(actual.getCareer()).isEqualTo(expectedBillionaireCareer);
+                void careerIsEqualTo(final String expected) {
+                    assertThat(actual.getCareer()).isEqualTo(expected);
                 }
 
                 void verifyRepositoryDeleteMethodHasCalled() {
@@ -275,21 +309,21 @@ class BillionaireServiceNewTest {
 
             class ExceptionDslAsserter {
 
-                ExceptionDslAsserter isInstanceOf(Class<? extends Exception> expectedException) {
-                    assertThat(actualException).isInstanceOf(expectedException);
+                ExceptionDslAsserter isInstanceOf(final Class<? extends Exception> expected) {
+                    assertThat(actualException).isInstanceOf(expected);
                     return this;
                 }
 
-                void messageIsEqualTo(String expectedMessage) {
-                    assertThat(actualException.getMessage()).isEqualTo(expectedMessage);
+                void messageIsEqualTo(final String expected) {
+                    assertThat(actualException.getMessage()).isEqualTo(expected);
                 }
 
             }
 
             class ListDslAsserter {
 
-                void sizeIsEqualTo(int expectedSize) {
-                    assertThat(actualList).hasSize(expectedSize);
+                void sizeIsEqualTo(final int expected) {
+                    assertThat(actualList).hasSize(expected);
                 }
 
             }
