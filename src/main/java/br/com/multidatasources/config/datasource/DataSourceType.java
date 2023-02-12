@@ -2,7 +2,7 @@ package br.com.multidatasources.config.datasource;
 
 public enum DataSourceType {
 
-    READ_ONLY("Slave-DB") {
+    READ_ONLY("Replica-DB") {
         @Override
         public int getMinimumIdle() {
             return Runtime.getRuntime().availableProcessors();

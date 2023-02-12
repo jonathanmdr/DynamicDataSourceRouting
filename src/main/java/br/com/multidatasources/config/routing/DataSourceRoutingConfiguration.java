@@ -1,7 +1,8 @@
 package br.com.multidatasources.config.routing;
 
 import br.com.multidatasources.config.datasource.DataSourceType;
-import org.springframework.beans.factory.annotation.Qualifier;
+import br.com.multidatasources.config.datasource.MasterDataSource;
+import br.com.multidatasources.config.datasource.ReplicaDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -10,17 +11,14 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
-import static br.com.multidatasources.config.datasource.MasterDataSourceConfiguration.MASTER_DATA_SOURCE_QUALIFIER;
-import static br.com.multidatasources.config.datasource.SlaveDataSourceConfiguration.SLAVE_DATA_SOURCE_QUALIFIER;
-
 @Configuration
 public class DataSourceRoutingConfiguration {
 
     @Bean
     @Primary
     public TransactionRoutingDataSource routingDataSource(
-            @Qualifier(MASTER_DATA_SOURCE_QUALIFIER) final DataSource masterDataSource,
-            @Qualifier(SLAVE_DATA_SOURCE_QUALIFIER) final DataSource slaveDataSource
+        @MasterDataSource final DataSource masterDataSource,
+        @ReplicaDataSource final DataSource slaveDataSource
     ) {
         final TransactionRoutingDataSource routingDataSource = new TransactionRoutingDataSource();
 

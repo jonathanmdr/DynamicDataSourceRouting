@@ -1,0 +1,23 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: prometheus
+    scrape_interval: 5s
+    honor_timestamps: true
+    scheme: http
+    metrics_path: /metrics
+    static_configs:
+      - targets: [ "localhost:9090" ]
+        labels:
+          application: prometheus
+  - job_name: billionaire-api
+    scrape_interval: 5s
+    honor_timestamps: true
+    scheme: http
+    metrics_path: actuator/prometheus
+    static_configs:
+      - targets: [ "host.docker.internal:8080" ]
+        labels:
+          application: billionaire-api

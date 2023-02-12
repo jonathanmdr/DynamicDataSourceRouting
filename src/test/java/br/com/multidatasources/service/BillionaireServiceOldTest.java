@@ -4,6 +4,8 @@ import br.com.multidatasources.model.Billionaire;
 import br.com.multidatasources.model.factory.BillionaireBuilder;
 import br.com.multidatasources.repository.BillionaireRepository;
 import br.com.multidatasources.service.idempotency.IdempotencyGenerator;
+import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,8 +13,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;

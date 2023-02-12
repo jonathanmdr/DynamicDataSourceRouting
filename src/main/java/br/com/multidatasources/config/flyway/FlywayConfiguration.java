@@ -1,5 +1,6 @@
 package br.com.multidatasources.config.flyway;
 
+import br.com.multidatasources.config.datasource.MasterDataSource;
 import br.com.multidatasources.config.datasource.MasterDataSourceConfiguration;
 import br.com.multidatasources.config.properties.flyway.FlywayProperties;
 import org.flywaydb.core.Flyway;
@@ -17,7 +18,7 @@ public class FlywayConfiguration {
     private final FlywayProperties flywayProperties;
 
     public FlywayConfiguration(
-        @Qualifier(MasterDataSourceConfiguration.MASTER_DATA_SOURCE_QUALIFIER) final DataSource dataSource,
+        @MasterDataSource final DataSource dataSource,
         final FlywayProperties flywayProperties
     ) {
         this.dataSource = dataSource;

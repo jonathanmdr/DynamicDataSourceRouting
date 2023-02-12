@@ -1,10 +1,10 @@
 package br.com.multidatasources.model;
 
 import br.com.multidatasources.service.idempotency.IdempotencyGenerator;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.util.Objects;
 
 @Entity

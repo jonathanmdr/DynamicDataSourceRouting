@@ -1,15 +1,14 @@
 package br.com.multidatasources.service;
 
-import java.util.List;
-
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
-
 import br.com.multidatasources.model.Billionaire;
 import br.com.multidatasources.repository.BillionaireRepository;
 import br.com.multidatasources.service.idempotency.IdempotencyGenerator;
+import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional

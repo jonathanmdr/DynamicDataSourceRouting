@@ -17,7 +17,7 @@ Esta arquitetura consiste em diminuir a concorrência entre transações da API 
 </br>
 
 [![node](https://img.shields.io/badge/AdoptOpenJDK-17-red.svg)](https://adoptopenjdk.net/)
-[![node](https://img.shields.io/badge/Spring_Boot-2.7.1-green.svg)](https://spring.io/)
+[![node](https://img.shields.io/badge/Spring_Boot-3.0.2-green.svg)](https://spring.io/)
 [![node](https://img.shields.io/badge/MySQL-8.0.28-blue.svg)](https://www.mysql.com/)
 
 
@@ -39,4 +39,17 @@ docker-compose up -d
 Parar:
 ```sh
 docker-compose down --remove-orphans --volume
+```
+## OpenTelemetry
+> O OpenTelemetry foi incluso no projeto utilizando a estratégia de coletores como agent.
+
+Para utilizar o OTel em ambiente local, é necessário inicializar a aplicação fornecendo alguns parâmetros de configuração do agent OTel pela VM:
+```shell
+-javaagent:./agents/otel/opentelemetry-javaagent.jar
+-Dotel.traces.exporter=jaeger
+-Dotel.metrics.exporter=prometheus
+-Dotel.exporter.prometheus.port=9090
+-Dotel.exporter.prometheus.host=localhost
+-Dotel.exporter.jaeger.endpoint=http://localhost:14250
+-Dotel.resource.attributes=service.name=billionaire-api
 ```

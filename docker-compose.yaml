@@ -1,18 +1,6 @@
 version: "3.8"
 
 services:
-#  api:
-#    container_name: api
-#    restart: "no"
-#    build:
-#      context: .
-#    ports:
-#      - "8080:8080"
-#    networks:
-#      - multi-data-sources
-#    depends_on:
-#      - master-db
-#      - slave-db
 
   master-db:
     image: docker.io/bitnami/mysql:8.0
@@ -23,7 +11,7 @@ services:
     networks:
       - multi-data-sources
     volumes:
-      - "data:/bitnami/mysql/data"
+      - mysql-data:/bitnami/mysql/data
     environment:
       - MYSQL_REPLICATION_MODE=master
       - MYSQL_REPLICATION_USER=repl_user
@@ -37,9 +25,9 @@ services:
       timeout: 5s
       retries: 6
 
-  slave-db:
+  replica-db:
     image: docker.io/bitnami/mysql:8.0
-    container_name: slave-db
+    container_name: replica-db
     restart: "no"
     ports:
       - "3307:3306"
@@ -50,7 +38,7 @@ services:
     environment:
       - MYSQL_REPLICATION_MODE=slave
       - MYSQL_REPLICATION_USER=repl_user
-      - MYSQL_USER=slave
+      - MYSQL_USER=replica
       - MYSQL_DATABASE=billionaires
       - MYSQL_MASTER_HOST=master-db
       - MYSQL_MASTER_PORT_NUMBER=3306
@@ -81,6 +69,37 @@ services:
       - "14268:14268"
       # Collector gRPC
       - "14250:14250"
+    environment:
+      - METRICS_STORAGE_TYPE=prometheus
+      - PROMETHEUS_SERVER_URL=http://prometheus:9090
+    networks:
+      - multi-data-sources
+
+  prometheus:
+    image: prom/prometheus:v2.42.0
+    container_name: prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus-configuration.yaml
+    ports:
+      - "9090:9090"
+    volumes:
+      - prometheus-data:/prometheus
+      - ./agents/prometheus:/etc/prometheus
+    networks:
+      - multi-data-sources
+
+  grafana:
+    image: grafana/grafana-oss:9.3.6
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_SERVER_DOMAIN=localhost
+    volumes:
+      - grafana-data:/var/lib/grafana
     networks:
       - multi-data-sources
 
@@ -89,5 +108,9 @@ networks:
     driver: bridge
 
 volumes:
-  data:
+  mysql-data:
+    driver: local
+  prometheus-data:
+    driver: local
+  grafana-data:
     driver: local

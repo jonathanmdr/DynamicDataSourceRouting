@@ -6,7 +6,7 @@ RUN mvn --batch-mode package
 
 FROM openjdk:17.0.2
 
-ADD https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v1.17.0/opentelemetry-javaagent.jar .
+ADD https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar .
 
 COPY --from=build /target/multidatasources*.jar /app.jar
 

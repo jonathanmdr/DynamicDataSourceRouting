@@ -1,9 +1,8 @@
 package br.com.multidatasources.config.flyway;
 
+import jakarta.annotation.PostConstruct;
 import org.flywaydb.core.Flyway;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
 
 @Component
 public class FlywayMigratorExecutor {

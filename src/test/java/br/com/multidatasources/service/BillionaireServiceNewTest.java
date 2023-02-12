@@ -4,11 +4,11 @@ import br.com.multidatasources.model.Billionaire;
 import br.com.multidatasources.repository.BillionaireRepository;
 import br.com.multidatasources.service.idempotency.IdempotencyGenerator;
 import br.com.multidatasources.service.idempotency.impl.UUIDIdempotencyGenerator;
+import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
