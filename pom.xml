@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.2</version>
+        <version>3.1.0</version>
         <relativePath/>
     </parent>
 
@@ -18,10 +18,11 @@
         <java.version>17</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <mapstruct.version>1.5.3.Final</mapstruct.version>
-        <apache-commons-lang3.version>3.12.0</apache-commons-lang3.version>
-        <openapi.version>2.0.2</openapi.version>
-        <opentelemetry.version>1.23.0</opentelemetry.version>
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
+        <springdoc-openapi-starter-webmvc-ui.version>2.1.0</springdoc-openapi-starter-webmvc-ui.version>
+        <snakyaml.version>2.0</snakyaml.version>
+        <h2.version>2.1.214</h2.version>
+        <opentelemetry.version>1.26.0</opentelemetry.version>
     </properties>
 
     <dependencyManagement>
@@ -95,19 +96,20 @@
             <version>${mapstruct.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${apache-commons-lang3.version}</version>
-            <type>pom</type>
-        </dependency>
-        <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>${openapi.version}</version>
+            <version>${springdoc-openapi-starter-webmvc-ui.version}</version>
+        </dependency>
+        <!-- Solves the https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-1471 in spring boot dependencies -->
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>${snakeyaml.version}</version>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

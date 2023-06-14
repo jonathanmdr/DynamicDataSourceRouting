@@ -17,7 +17,7 @@ Esta arquitetura consiste em diminuir a concorrência entre transações da API 
 </br>
 
 [![node](https://img.shields.io/badge/AdoptOpenJDK-17-red.svg)](https://adoptopenjdk.net/)
-[![node](https://img.shields.io/badge/Spring_Boot-3.0.2-green.svg)](https://spring.io/)
+[![node](https://img.shields.io/badge/Spring_Boot-3.1.0-green.svg)](https://spring.io/)
 [![node](https://img.shields.io/badge/MySQL-8.0.28-blue.svg)](https://www.mysql.com/)
 
 
@@ -34,11 +34,11 @@ Esta arquitetura consiste em diminuir a concorrência entre transações da API 
 
 Inicializar:
 ```sh
-docker-compose up -d
+make up
 ```
 Parar:
 ```sh
-docker-compose down --remove-orphans --volume
+make down
 ```
 ## OpenTelemetry
 > O OpenTelemetry foi incluso no projeto utilizando a estratégia de coletores como agent.
