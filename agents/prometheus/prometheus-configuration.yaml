@@ -16,7 +16,7 @@ scrape_configs:
     scrape_interval: 5s
     honor_timestamps: true
     scheme: http
-    metrics_path: actuator/prometheus
+    metrics_path: /prometheus
     static_configs:
       - targets: [ "host.docker.internal:8080" ]
         labels:

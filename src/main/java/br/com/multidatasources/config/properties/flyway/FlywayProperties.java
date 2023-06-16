@@ -1,14 +1,16 @@
 package br.com.multidatasources.config.properties.flyway;
 
+import java.util.List;
+
 public class FlywayProperties {
 
     private String schemaName;
     private boolean baselineOnMigrate;
-    private String[] locations;
+    private List<String> locations;
 
     public FlywayProperties() { }
 
-    public FlywayProperties(final String schemaName, final boolean baselineOnMigrate, final String[] locations) {
+    public FlywayProperties(final String schemaName, final boolean baselineOnMigrate, final List<String> locations) {
         this.schemaName = schemaName;
         this.baselineOnMigrate = baselineOnMigrate;
         this.locations = locations;
@@ -31,10 +33,10 @@ public class FlywayProperties {
     }
 
     public String[] getLocations() {
-        return locations;
+        return locations.toArray(new String[0]);
     }
 
-    public void setLocations(final String[] locations) {
+    public void setLocations(final List<String> locations) {
         this.locations = locations;
     }
 

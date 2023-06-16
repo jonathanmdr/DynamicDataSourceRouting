@@ -20,7 +20,7 @@ public class DataSourceRoutingConfiguration {
         @MasterDataSource final DataSource masterDataSource,
         @ReplicaDataSource final DataSource slaveDataSource
     ) {
-        final TransactionRoutingDataSource routingDataSource = new TransactionRoutingDataSource();
+        final var routingDataSource = new TransactionRoutingDataSource();
 
         final Map<Object, Object> dataSourceMap = new HashMap<>();
         dataSourceMap.put(DataSourceType.READ_WRITE, masterDataSource);

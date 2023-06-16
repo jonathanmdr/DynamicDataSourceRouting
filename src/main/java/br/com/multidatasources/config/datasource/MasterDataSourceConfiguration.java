@@ -8,38 +8,40 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
 
+import static br.com.multidatasources.config.datasource.DataSourceType.READ_WRITE;
+
 @Configuration
 public class MasterDataSourceConfiguration implements DataSourceConfiguration {
 
     @Override
     public String getPoolName() {
-        return DataSourceType.READ_WRITE.getPoolName();
+        return READ_WRITE.getPoolName();
     }
 
     @Override
     public int getMinimumIdle() {
-        return DataSourceType.READ_WRITE.getMinimumIdle();
+        return READ_WRITE.getMinimumIdle();
     }
 
     @Override
     public int getMaximumPoolSize() {
-        return DataSourceType.READ_WRITE.getMaximumPoolSize();
+        return READ_WRITE.getMaximumPoolSize();
     }
 
     @Override
     public long getConnectionTimeout() {
-        return DataSourceType.READ_WRITE.getConnectionTimeout();
+        return READ_WRITE.getConnectionTimeout();
     }
 
     @Override
     public long getMaxLifetime() {
-        return DataSourceType.READ_WRITE.getMaxLifetime();
+        return READ_WRITE.getMaxLifetime();
     }
 
     @Bean
     @MasterDataSource
     public DataSource masterDataSource(@MasterProperties final DatabaseConnectionProperties properties) {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        final var dataSource = new DriverManagerDataSource();
 
         dataSource.setUrl(properties.getUrl());
         dataSource.setUsername(properties.getUsername());

@@ -136,7 +136,6 @@ class BillionaireServiceNewTest {
 
     class Dsl {
         private final BillionaireRepository billionaireRepository;
-        private final IdempotencyGenerator idempotencyGenerator;
         private Billionaire expected;
         private Billionaire actual;
         private List<Billionaire> expectedList;
@@ -145,7 +144,7 @@ class BillionaireServiceNewTest {
 
         Dsl() {
             this.billionaireRepository = mock(BillionaireRepository.class);
-            this.idempotencyGenerator = new UUIDIdempotencyGenerator();
+            final var idempotencyGenerator = new UUIDIdempotencyGenerator();
 
             subject = new BillionaireService(billionaireRepository, idempotencyGenerator);
         }

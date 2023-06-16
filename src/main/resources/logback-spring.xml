@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <springProperty scope="context" name="service" source="spring.application.name"/>
+    <springProperty scope="context" name="version" source="spring.application.version"/>
+    <springProperty scope="local" name="level" source="logging.level" defaultValue="INFO"/>
+    <springProperty scope="local" name="appender" source="logging.appender" defaultValue="CONSOLE"/>
+    <springProperty scope="local" name="CONSOLE_LOG_PATTERN" source="logging.pattern.console"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="JSON" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <fieldNames>
+                <version>[ignore]</version>
+                <levelValue>[ignore]</levelValue>
+                <timestamp>[ignore]</timestamp>
+            </fieldNames>
+            <provider class="net.logstash.logback.composite.loggingevent.LoggingEventPatternJsonProvider">
+                <pattern>
+                    {
+                    "timestamp_app": "%d{yyyy-MM-dd HH:mm:ss.SSS}"
+                    }
+                </pattern>
+            </provider>
+            <throwableConverter class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">
+                <maxDepthPerThrowable>30</maxDepthPerThrowable>
+                <maxLength>50000</maxLength>
+                <exclude>sun\.reflect\..*\.invoke.*</exclude>
+                <exclude>net\.sf\.cglib\.proxy\.MethodProxy\.invoke</exclude>
+                <rootCauseFirst>true</rootCauseFirst>
+                <inlineHash>true</inlineHash>
+            </throwableConverter>
+        </encoder>
+    </appender>
+
+    <root level="${level}">
+        <appender-ref ref="${appender}"/>
+    </root>
+
+    <logger name="br.com.multidatasources" level="DEBUG"/>
+
+</configuration>

@@ -8,38 +8,40 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
 
+import static br.com.multidatasources.config.datasource.DataSourceType.READ_ONLY;
+
 @Configuration
 public class ReplicaDataSourceConfiguration implements DataSourceConfiguration {
 
     @Override
     public String getPoolName() {
-        return DataSourceType.READ_ONLY.getPoolName();
+        return READ_ONLY.getPoolName();
     }
 
     @Override
     public int getMinimumIdle() {
-        return DataSourceType.READ_ONLY.getMinimumIdle();
+        return READ_ONLY.getMinimumIdle();
     }
 
     @Override
     public int getMaximumPoolSize() {
-        return DataSourceType.READ_ONLY.getMaximumPoolSize();
+        return READ_ONLY.getMaximumPoolSize();
     }
 
     @Override
     public long getConnectionTimeout() {
-        return DataSourceType.READ_ONLY.getConnectionTimeout();
+        return READ_ONLY.getConnectionTimeout();
     }
 
     @Override
     public long getMaxLifetime() {
-        return DataSourceType.READ_ONLY.getMaxLifetime();
+        return READ_ONLY.getMaxLifetime();
     }
 
     @Bean
     @ReplicaDataSource
     public DataSource replicaDataSource(@ReplicaProperties final DatabaseConnectionProperties properties) {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        final var dataSource = new DriverManagerDataSource();
 
         dataSource.setUrl(properties.getUrl());
         dataSource.setUsername(properties.getUsername());

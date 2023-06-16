@@ -1,11 +1,9 @@
 package br.com.multidatasources.config.flyway;
 
 import br.com.multidatasources.config.datasource.MasterDataSource;
-import br.com.multidatasources.config.datasource.MasterDataSourceConfiguration;
 import br.com.multidatasources.config.properties.flyway.FlywayProperties;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.MigrationVersion;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -28,12 +26,12 @@ public class FlywayConfiguration {
     @Bean
     public Flyway flyway(){
         return Flyway.configure()
-                .baselineOnMigrate(flywayProperties.isBaselineOnMigrate())
-                .locations(flywayProperties.getLocations())
-                .dataSource(dataSource)
-                .schemas(flywayProperties.getSchemaName())
-                .target(MigrationVersion.LATEST)
-                .load();
+            .baselineOnMigrate(flywayProperties.isBaselineOnMigrate())
+            .locations(flywayProperties.getLocations())
+            .dataSource(dataSource)
+            .schemas(flywayProperties.getSchemaName())
+            .target(MigrationVersion.LATEST)
+            .load();
     }
 
 }
