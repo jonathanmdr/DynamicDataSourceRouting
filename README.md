@@ -43,13 +43,15 @@ make down
 ## OpenTelemetry
 > O OpenTelemetry foi incluso no projeto utilizando a estratégia de coletores como agent.
 
-Para utilizar o OTel em ambiente local, é necessário inicializar a aplicação fornecendo alguns parâmetros de configuração do agent OTel pela VM:
+Variáveis de ambiente:
+```shell
+OTEL_TRACES_EXPORTER=jaeger
+OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=http://localhost:14250
+OTEL_METRICS_EXPORTER=none
+OTEL_SERVICE_NAME=billionaire-api
+```
+
+Argumentos de VM:
 ```shell
 -javaagent:./agents/otel/opentelemetry-javaagent.jar
--Dotel.traces.exporter=jaeger
--Dotel.metrics.exporter=prometheus
--Dotel.exporter.prometheus.port=9090
--Dotel.exporter.prometheus.host=localhost
--Dotel.exporter.jaeger.endpoint=http://localhost:14250
--Dotel.resource.attributes=service.name=billionaire-api
 ```
