@@ -24,7 +24,7 @@ import java.util.List;
 
 @OTelSpannerCustom
 @RestController
-@RequestMapping("/billionaires")
+@RequestMapping("/v1/billionaires")
 public class BillionaireController {
 
     private final BillionaireService billionaireService;
