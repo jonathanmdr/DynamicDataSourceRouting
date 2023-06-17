@@ -14,28 +14,33 @@ import static br.com.multidatasources.config.datasource.DataSourceType.READ_ONLY
 public class ReplicaDataSourceConfiguration implements DataSourceConfiguration {
 
     @Override
-    public String getPoolName() {
-        return READ_ONLY.getPoolName();
+    public String poolName() {
+        return READ_ONLY.poolName();
     }
 
     @Override
-    public int getMinimumIdle() {
-        return READ_ONLY.getMinimumIdle();
+    public int minimumIdle() {
+        return READ_ONLY.minimumIdle();
     }
 
     @Override
-    public int getMaximumPoolSize() {
-        return READ_ONLY.getMaximumPoolSize();
+    public int maximumPoolSize() {
+        return READ_ONLY.maximumPoolSize();
     }
 
     @Override
-    public long getConnectionTimeout() {
-        return READ_ONLY.getConnectionTimeout();
+    public long connectionTimeout() {
+        return READ_ONLY.connectionTimeout();
     }
 
     @Override
-    public long getMaxLifetime() {
-        return READ_ONLY.getMaxLifetime();
+    public long idleTimeout() {
+        return READ_ONLY.idleTimeout();
+    }
+
+    @Override
+    public long maxLifetime() {
+        return READ_ONLY.maxLifetime();
     }
 
     @Bean

@@ -4,44 +4,54 @@ public enum DataSourceType {
 
     READ_ONLY("Replica-DB") {
         @Override
-        public int getMinimumIdle() {
+        public int minimumIdle() {
             return Runtime.getRuntime().availableProcessors();
         }
 
         @Override
-        public int getMaximumPoolSize() {
+        public int maximumPoolSize() {
             return Runtime.getRuntime().availableProcessors() * 4;
         }
 
         @Override
-        public long getConnectionTimeout() {
+        public long connectionTimeout() {
             return 250;
         }
 
         @Override
-        public long getMaxLifetime() {
+        public long idleTimeout() {
             return 600000;
+        }
+
+        @Override
+        public long maxLifetime() {
+            return 800000;
         }
     },
     READ_WRITE("Master-DB") {
         @Override
-        public int getMinimumIdle() {
+        public int minimumIdle() {
             return Runtime.getRuntime().availableProcessors();
         }
 
         @Override
-        public int getMaximumPoolSize() {
+        public int maximumPoolSize() {
             return Runtime.getRuntime().availableProcessors() * 2;
         }
 
         @Override
-        public long getConnectionTimeout() {
+        public long connectionTimeout() {
             return 250;
         }
 
         @Override
-        public long getMaxLifetime() {
+        public long idleTimeout() {
             return 600000;
+        }
+
+        @Override
+        public long maxLifetime() {
+            return 800000;
         }
     };
 
@@ -51,16 +61,18 @@ public enum DataSourceType {
         this.poolName = poolName;
     }
 
-    public String getPoolName() {
+    public String poolName() {
         return this.poolName;
     }
 
-    public abstract int getMinimumIdle();
+    public abstract int minimumIdle();
 
-    public abstract int getMaximumPoolSize();
+    public abstract int maximumPoolSize();
 
-    public abstract long getConnectionTimeout();
+    public abstract long connectionTimeout();
 
-    public abstract long getMaxLifetime();
+    public abstract long idleTimeout();
+
+    public abstract long maxLifetime();
 
 }

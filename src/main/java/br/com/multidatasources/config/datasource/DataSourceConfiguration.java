@@ -7,15 +7,17 @@ import com.zaxxer.hikari.HikariDataSource;
 
 public interface DataSourceConfiguration {
 
-    String getPoolName();
+    String poolName();
 
-    int getMinimumIdle();
+    int minimumIdle();
 
-    int getMaximumPoolSize();
+    int maximumPoolSize();
 
-    long getConnectionTimeout();
+    long connectionTimeout();
 
-    long getMaxLifetime();
+    long idleTimeout();
+
+    long maxLifetime();
 
     default HikariDataSource definePoolDataSourceConnection(final DataSource dataSource) {
         return new HikariDataSource(hikariConfig(dataSource));
@@ -24,11 +26,12 @@ public interface DataSourceConfiguration {
     private HikariConfig hikariConfig(final DataSource dataSource) {
         final HikariConfig hikariConfig = new HikariConfig();
 
-        hikariConfig.setPoolName(getPoolName());
-        hikariConfig.setMaximumPoolSize(getMaximumPoolSize());
-        hikariConfig.setMinimumIdle(getMinimumIdle());
-        hikariConfig.setConnectionTimeout(getConnectionTimeout());
-        hikariConfig.setMaxLifetime(getMaxLifetime());
+        hikariConfig.setPoolName(poolName());
+        hikariConfig.setMaximumPoolSize(maximumPoolSize());
+        hikariConfig.setMinimumIdle(minimumIdle());
+        hikariConfig.setConnectionTimeout(connectionTimeout());
+        hikariConfig.setMaxLifetime(maxLifetime());
+        hikariConfig.setIdleTimeout(idleTimeout());
         hikariConfig.setDataSource(dataSource);
         hikariConfig.setAutoCommit(false);
 
