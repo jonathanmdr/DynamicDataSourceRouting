@@ -1,4 +1,4 @@
-package br.com.multidatasources.controller.exceptionhandler;
+package br.com.multidatasources.api;
 
 import com.fasterxml.jackson.databind.JsonMappingException.Reference;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;

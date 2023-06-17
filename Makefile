@@ -1,4 +1,7 @@
-.PHONY: install test up down upgrade_otel_agent
+.PHONY: clean install test up down upgrade_otel_agent
+
+clean:
+	@mvn clean
 
 install:
 	@mvn clean install

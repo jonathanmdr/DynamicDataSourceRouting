@@ -1,6 +1,6 @@
 package br.com.multidatasources.model;
 
-import br.com.multidatasources.service.idempotency.IdempotencyGenerator;
+import br.com.multidatasources.service.v1.idempotency.IdempotencyGenerator;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;

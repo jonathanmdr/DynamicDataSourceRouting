@@ -1,4 +1,4 @@
-package br.com.multidatasources.service.idempotency;
+package br.com.multidatasources.service.v1.idempotency;
 
 import br.com.multidatasources.model.IdempotentEntity;
 

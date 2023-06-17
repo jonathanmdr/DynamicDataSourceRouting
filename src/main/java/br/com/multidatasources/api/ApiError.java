@@ -1,12 +1,9 @@
-package br.com.multidatasources.controller.exceptionhandler;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+package br.com.multidatasources.api;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Objects;
 
-@JsonInclude(Include.NON_NULL)
 public class ApiError {
 
     private Integer status;
@@ -60,8 +57,23 @@ public class ApiError {
     public record FieldError(
         String name,
         String userMessage
-    ) {
+    ) { }
 
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final ApiError apiError = (ApiError) o;
+        return Objects.equals(status, apiError.status)
+            && Objects.equals(timestamp, apiError.timestamp)
+            && Objects.equals(detail, apiError.detail)
+            && Objects.equals(userMessage, apiError.userMessage)
+            && Objects.equals(fields, apiError.fields);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(status, timestamp, detail, userMessage, fields);
     }
 
 }

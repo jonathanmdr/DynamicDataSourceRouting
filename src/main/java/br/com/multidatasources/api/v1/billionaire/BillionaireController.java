@@ -1,12 +1,11 @@
-package br.com.multidatasources.controller;
+package br.com.multidatasources.api.v1.billionaire;
 
+import br.com.multidatasources.api.ResourceUriHelper;
+import br.com.multidatasources.api.v1.billionaire.input.BillionaireInput;
+import br.com.multidatasources.api.v1.billionaire.output.BillionaireOutput;
 import br.com.multidatasources.config.aop.OTelSpannerCustom;
-import br.com.multidatasources.controller.dto.BillionaireInputDto;
-import br.com.multidatasources.controller.dto.BillionaireOutputDto;
-import br.com.multidatasources.controller.mapper.BillionaireMapper;
-import br.com.multidatasources.controller.utils.ResourceUriHelper;
 import br.com.multidatasources.model.Billionaire;
-import br.com.multidatasources.service.BillionaireService;
+import br.com.multidatasources.service.v1.BillionaireService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
@@ -29,43 +28,43 @@ import java.util.List;
 public class BillionaireController {
 
     private final BillionaireService billionaireService;
-    private final BillionaireMapper billionaireMapper;
+    private final BillionairePresenter billionairePresenter;
 
     public BillionaireController(
         final BillionaireService billionaireService,
-        final BillionaireMapper billionaireMapper
+        final BillionairePresenter billionairePresenter
     ) {
         this.billionaireService = billionaireService;
-        this.billionaireMapper = billionaireMapper;
+        this.billionairePresenter = billionairePresenter;
     }
 
     @GetMapping
-    public ResponseEntity<List<BillionaireOutputDto>> findAll() {
-        List<BillionaireOutputDto> responseBody = billionaireMapper.toCollectionDto(billionaireService.findAll());
+    public ResponseEntity<List<BillionaireOutput>> findAll() {
+        List<BillionaireOutput> responseBody = billionairePresenter.present(billionaireService.findAll());
         return ResponseEntity.ok(responseBody);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BillionaireOutputDto> findById(@PathVariable final Long id) {
-        BillionaireOutputDto responseBody = billionaireMapper.toDto(billionaireService.findById(id));
+    public ResponseEntity<BillionaireOutput> findById(@PathVariable final Long id) {
+        BillionaireOutput responseBody = billionairePresenter.present(billionaireService.findById(id));
         return ResponseEntity.ok(responseBody);
     }
 
     @PostMapping
-    public ResponseEntity<BillionaireOutputDto> save(@Valid @RequestBody final BillionaireInputDto billionairesInputDto) {
-        Billionaire billionaire = billionaireMapper.toModel(billionairesInputDto);
+    public ResponseEntity<BillionaireOutput> save(@Valid @RequestBody final BillionaireInput input) {
+        Billionaire billionaire = billionairePresenter.present(input);
 
-        BillionaireOutputDto responseBody = billionaireMapper.toDto(billionaireService.save(billionaire));
-        return ResponseEntity.created(ResourceUriHelper.getUri(responseBody.getId())).body(responseBody);
+        BillionaireOutput responseBody = billionairePresenter.present(billionaireService.save(billionaire));
+        return ResponseEntity.created(ResourceUriHelper.getUri(responseBody.id())).body(responseBody);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BillionaireOutputDto> update(@PathVariable final Long id, @Valid @RequestBody final BillionaireInputDto billionairesInputDto) {
+    public ResponseEntity<BillionaireOutput> update(@PathVariable final Long id, @Valid @RequestBody final BillionaireInput input) {
         Billionaire billionaire = billionaireService.findById(id);
 
-        BeanUtils.copyProperties(billionairesInputDto, billionaire, "id");
+        BeanUtils.copyProperties(input, billionaire, "id");
 
-        BillionaireOutputDto responseBody = billionaireMapper.toDto(billionaireService.save(billionaire));
+        BillionaireOutput responseBody = billionairePresenter.present(billionaireService.save(billionaire));
         return ResponseEntity.ok(responseBody);
     }
 

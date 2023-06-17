@@ -1,4 +1,4 @@
-package br.com.multidatasources.controller.utils;
+package br.com.multidatasources.api;
 
 import java.net.URI;
 
@@ -8,7 +8,7 @@ public final class ResourceUriHelper {
 
     private ResourceUriHelper() { }
 
-    public static URI getUri(Object resourceId) {
+    public static URI getUri(final Object resourceId) {
         return ServletUriComponentsBuilder.fromCurrentRequestUri()
                 .path("/{id}")
                 .buildAndExpand(resourceId)

@@ -1,7 +1,7 @@
 package br.com.multidatasources.model;
 
 import br.com.multidatasources.model.converter.IdempotencyIdConverter;
-import br.com.multidatasources.service.idempotency.IdempotencyGenerator;
+import br.com.multidatasources.service.v1.idempotency.IdempotencyGenerator;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.GeneratedValue;

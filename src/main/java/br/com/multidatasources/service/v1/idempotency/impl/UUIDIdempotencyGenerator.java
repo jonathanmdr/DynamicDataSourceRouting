@@ -1,7 +1,7 @@
-package br.com.multidatasources.service.idempotency.impl;
+package br.com.multidatasources.service.v1.idempotency.impl;
 
 import br.com.multidatasources.model.IdempotentEntity;
-import br.com.multidatasources.service.idempotency.IdempotencyGenerator;
+import br.com.multidatasources.service.v1.idempotency.IdempotencyGenerator;
 import org.springframework.stereotype.Component;
 
 import java.nio.ByteBuffer;

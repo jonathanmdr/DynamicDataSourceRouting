@@ -1,9 +1,9 @@
-package br.com.multidatasources.service;
+package br.com.multidatasources.service.v1;
 
 import br.com.multidatasources.model.Billionaire;
 import br.com.multidatasources.repository.BillionaireRepository;
-import br.com.multidatasources.service.idempotency.IdempotencyGenerator;
-import br.com.multidatasources.service.idempotency.impl.UUIDIdempotencyGenerator;
+import br.com.multidatasources.service.v1.BillionaireService;
+import br.com.multidatasources.service.v1.idempotency.impl.UUIDIdempotencyGenerator;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Test;
