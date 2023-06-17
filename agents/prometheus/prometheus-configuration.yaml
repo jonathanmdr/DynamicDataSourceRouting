@@ -4,7 +4,7 @@ global:
 
 scrape_configs:
   - job_name: prometheus
-    scrape_interval: 5s
+    scrape_interval: 30s
     honor_timestamps: true
     scheme: http
     metrics_path: /metrics
@@ -13,7 +13,7 @@ scrape_configs:
         labels:
           application: prometheus
   - job_name: billionaire-api
-    scrape_interval: 5s
+    scrape_interval: 30s
     honor_timestamps: true
     scheme: http
     metrics_path: /prometheus
