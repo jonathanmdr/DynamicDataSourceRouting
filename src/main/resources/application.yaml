@@ -72,7 +72,7 @@ springdoc:
 logging:
   level:
     ROOT: INFO
-    br.com.nultidatasources: INFO
+    br.com.multidatasources: INFO
   appender: CONSOLE
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %X{X-Request-ID} %highlight(%-5level) %magenta([%t]) %msg%n"
