@@ -1,0 +1,9 @@
+# DATABASE MASTER PROPERTIES
+master:
+  datasource:
+    host: host.docker.internal
+
+# DATABASE REPLICA PROPERTIES
+replica:
+  datasource:
+    host: host.docker.internal

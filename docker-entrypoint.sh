@@ -2,11 +2,10 @@
 
 set -e
 
-exec java -jar /app.jar \
-  && -javaagent:./opentelemetry-javaagent.jar \
-  && -Dotel.traces.exporter=jaeger \
-  && -Dotel.metrics.exporter=prometheus \
-  && -Dotel.exporter.prometheus.port="${PROMETHEUS_PORT}" \
-  && -Dotel.exporter.prometheus.host="${PROMETHEUS_HOST}" \
-  && -Dotel.exporter.jaeger.endpoint="${JAEGER_ENDPOINT}" \
-  && -Dotel.resource.attributes=service.name="${APPLICATION_NAME}"
+# Environment variables for development with docker
+export OTEL_TRACES_EXPORTER=jaeger
+export OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=http://host.docker.internal:14250
+export OTEL_METRICS_EXPORTER=none
+export OTEL_SERVICE_NAME=billionaire-api
+
+exec java -Dspring.profiles.active=docker -javaagent:opentelemetry-javaagent.jar -jar app.jar
