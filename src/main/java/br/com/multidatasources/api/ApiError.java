@@ -12,8 +12,6 @@ public class ApiError {
     private String userMessage;
     private List<FieldError> fields;
 
-    public ApiError() { }
-
     public Integer getStatus() {
         return status;
     }

@@ -40,38 +40,35 @@ public class BillionaireController {
 
     @GetMapping
     public ResponseEntity<List<BillionaireOutput>> findAll() {
-        List<BillionaireOutput> responseBody = billionairePresenter.present(billionaireService.findAll());
+        final List<BillionaireOutput> responseBody = billionairePresenter.present(billionaireService.findAll());
         return ResponseEntity.ok(responseBody);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<BillionaireOutput> findById(@PathVariable final Long id) {
-        BillionaireOutput responseBody = billionairePresenter.present(billionaireService.findById(id));
+        final BillionaireOutput responseBody = billionairePresenter.present(billionaireService.findById(id));
         return ResponseEntity.ok(responseBody);
     }
 
     @PostMapping
     public ResponseEntity<BillionaireOutput> save(@Valid @RequestBody final BillionaireInput input) {
-        Billionaire billionaire = billionairePresenter.present(input);
-
-        BillionaireOutput responseBody = billionairePresenter.present(billionaireService.save(billionaire));
-        return ResponseEntity.created(ResourceUriHelper.getUri(responseBody.id())).body(responseBody);
+        final Billionaire billionaire = billionairePresenter.present(input);
+        final BillionaireOutput responseBody = billionairePresenter.present(billionaireService.save(billionaire));
+        return ResponseEntity.created(ResourceUriHelper.uriFrom(responseBody.id())).body(responseBody);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<BillionaireOutput> update(@PathVariable final Long id, @Valid @RequestBody final BillionaireInput input) {
-        Billionaire billionaire = billionaireService.findById(id);
-
+        final Billionaire billionaire = billionaireService.findById(id);
         BeanUtils.copyProperties(input, billionaire, "id");
-
-        BillionaireOutput responseBody = billionairePresenter.present(billionaireService.save(billionaire));
+        final BillionaireOutput responseBody = billionairePresenter.present(billionaireService.save(billionaire));
         return ResponseEntity.ok(responseBody);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void delete(@PathVariable final Long id) {
-        Billionaire billionaire = billionaireService.findById(id);
+        final Billionaire billionaire = billionaireService.findById(id);
         billionaireService.delete(billionaire);
     }
 

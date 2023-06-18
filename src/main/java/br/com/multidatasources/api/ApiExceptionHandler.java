@@ -36,57 +36,57 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     private final MessageSource messageSource;
 
-    public ApiExceptionHandler(MessageSource messageSource) {
+    public ApiExceptionHandler(final MessageSource messageSource) {
         this.messageSource = messageSource;
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    protected ResponseEntity<Object> handleStateNotFoundException(EntityNotFoundException ex, WebRequest request) {
-        HttpStatus status = HttpStatus.NOT_FOUND;
+    protected ResponseEntity<Object> handleStateNotFoundException(final EntityNotFoundException ex, final WebRequest request) {
+        final HttpStatus status = HttpStatus.NOT_FOUND;
 
-        ApiError error = createApiError(status, ex.getMessage());
+        final ApiError error = createApiError(status, ex.getMessage());
         error.setUserMessage(ex.getMessage());
 
         return super.handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
     }
 
     @ExceptionHandler(EntityExistsException.class)
-    protected ResponseEntity<Object> handleStateExistsException(EntityExistsException ex, WebRequest request) {
-        HttpStatus status = HttpStatus.CONFLICT;
+    protected ResponseEntity<Object> handleStateExistsException(final EntityExistsException ex, final WebRequest request) {
+        final HttpStatus status = HttpStatus.CONFLICT;
 
-        ApiError error = createApiError(status, ex.getMessage());
+        final ApiError error = createApiError(status, ex.getMessage());
         error.setUserMessage(ex.getMessage());
 
         return super.handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
     }
 
     @ExceptionHandler(Exception.class) 
-    protected ResponseEntity<Object> handlerUncaught(Exception ex, WebRequest request) {
-        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+    protected ResponseEntity<Object> handlerUncaught(final Exception ex, final WebRequest request) {
+        final HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
 
-        ApiError error = createApiError(status, GENERIC_ERROR_MESSAGE);
+        final ApiError error = createApiError(status, GENERIC_ERROR_MESSAGE);
         error.setUserMessage(GENERIC_ERROR_MESSAGE);
 
         return super.handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
     }
 
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex, final HttpHeaders headers, final HttpStatusCode status, final WebRequest request) {
         return handleValidationInternal(ex, ex.getBindingResult(), new HttpHeaders(), status, request);
     }
 
     @Override
-    protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        String detail = "The resource '%s' not found.".formatted(ex.getRequestURL());
+    protected ResponseEntity<Object> handleNoHandlerFoundException(final NoHandlerFoundException ex, final HttpHeaders headers, final HttpStatusCode status, final WebRequest request) {
+        final String detail = "The resource '%s' not found.".formatted(ex.getRequestURL());
 
-        ApiError error = createApiError(status, detail);
+        final ApiError error = createApiError(status, detail);
         error.setUserMessage(GENERIC_ERROR_MESSAGE);
 
         return super.handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
     }
 
     @Override
-    protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+    protected ResponseEntity<Object> handleTypeMismatch(final TypeMismatchException ex, final HttpHeaders headers, final HttpStatusCode status, final WebRequest request) {
         if (ex instanceof MethodArgumentTypeMismatchException methodArgumentTypeMismatchException) {
             return handleMethodArgumentTypeMismatchException(methodArgumentTypeMismatchException, headers, status, request);
         }
@@ -95,8 +95,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        Throwable rootCause = ExceptionUtils.getRootCause(ex);
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(final HttpMessageNotReadableException ex, final HttpHeaders headers, final HttpStatusCode status, final WebRequest request) {
+        final Throwable rootCause = ExceptionUtils.getRootCause(ex);
 
         if (rootCause instanceof InvalidFormatException invalidFormatException) {
             return handleInvalidFormatException(invalidFormatException, headers, status, request);
@@ -110,58 +110,58 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
             return handleMethodArgumentTypeMismatchException(methodArgumentTypeMismatchException, headers, status, request);
         }
 
-        ApiError error = createApiError(status, "The request body is invalid. Verify syntax error.");
+        final ApiError error = createApiError(status, "The request body is invalid. Verify syntax error.");
         error.setUserMessage(GENERIC_ERROR_MESSAGE);
 
         return super.handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
     }
 
-    private ResponseEntity<Object> handleInvalidFormatException(InvalidFormatException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        String path = joinPath(ex.getPath());
-        String detail = "The property '%s' received value '%s', which is an invalid value. Inform the compatible value with data type %s."
+    private ResponseEntity<Object> handleInvalidFormatException(final InvalidFormatException ex, final HttpHeaders headers, final HttpStatusCode status, final WebRequest request) {
+        final String path = joinPath(ex.getPath());
+        final String detail = "The property '%s' received value '%s', which is an invalid value. Inform the compatible value with data type %s."
             .formatted(
                 path,
                 ex.getValue(),
                 ex.getTargetType().getSimpleName()
             );
 
-        ApiError error = createApiError(status, detail);
+        final ApiError error = createApiError(status, detail);
         error.setUserMessage(GENERIC_ERROR_MESSAGE);
 
         return super.handleExceptionInternal(ex, error, headers, status, request);
     }
 
-    private ResponseEntity<Object> handlePropertyBindingException(PropertyBindingException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        String path = joinPath(ex.getPath());
-        String detail = "Property '%s' not found.".formatted(path);
+    private ResponseEntity<Object> handlePropertyBindingException(final PropertyBindingException ex, final HttpHeaders headers, final HttpStatusCode status, final WebRequest request) {
+        final String path = joinPath(ex.getPath());
+        final String detail = "Property '%s' not found.".formatted(path);
 
-        ApiError error = createApiError(status, detail);
+        final ApiError error = createApiError(status, detail);
         error.setUserMessage(GENERIC_ERROR_MESSAGE);
 
         return super.handleExceptionInternal(ex, error, headers, status, request);
     }
 
-    private ResponseEntity<Object> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        String detail = "The URL parameter '%s' received value '%s', which is an invalid value. Inform the compatible value with data type %s."
+    private ResponseEntity<Object> handleMethodArgumentTypeMismatchException(final MethodArgumentTypeMismatchException ex, final HttpHeaders headers, final HttpStatusCode status, final WebRequest request) {
+        final String detail = "The URL parameter '%s' received value '%s', which is an invalid value. Inform the compatible value with data type %s."
             .formatted(
                 ex.getName(),
                 ex.getValue(),
                 Objects.requireNonNull(ex.getRequiredType()).getSimpleName()
             );
 
-        ApiError error = createApiError(status, detail);
+        final ApiError error = createApiError(status, detail);
         error.setUserMessage(GENERIC_ERROR_MESSAGE);
 
         return super.handleExceptionInternal(ex, error, headers, status, request);
     }
 
-    private ResponseEntity<Object> handleValidationInternal(Exception ex, BindingResult bindingResult, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+    private ResponseEntity<Object> handleValidationInternal(final Exception ex, final BindingResult bindingResult, final HttpHeaders headers, final HttpStatusCode status, final WebRequest request) {
         String detail = "One or more fields are invalid. fill in correctly and try again.";
 
-        List<ApiError.FieldError> fields = bindingResult.getAllErrors()
+        final List<ApiError.FieldError> fields = bindingResult.getAllErrors()
                 .stream()
                 .map(objectError -> {
-                    String message = messageSource.getMessage(objectError, LocaleContextHolder.getLocale());
+                    final String message = messageSource.getMessage(objectError, LocaleContextHolder.getLocale());
 
                     String name = objectError.getObjectName();
 
@@ -173,15 +173,15 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 })
                 .toList();
 
-        ApiError error = createApiError(status, detail);
+        final ApiError error = createApiError(status, detail);
         error.setUserMessage(detail);
         error.setFields(fields);
 
         return super.handleExceptionInternal(ex, error, headers, status, request);
     }
 
-    private ApiError createApiError(HttpStatusCode status, String detail) {
-        ApiError apiError = new ApiError();
+    private ApiError createApiError(final HttpStatusCode status, final String detail) {
+        final ApiError apiError = new ApiError();
 
         apiError.setStatus(status.value());
         apiError.setDetail(detail);
@@ -190,7 +190,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return apiError;
     }
 
-    private String joinPath(List<Reference> references) {
+    private String joinPath(final List<Reference> references) {
         return references.stream()
                 .map(Reference::getFieldName)
                 .collect(Collectors.joining("."));

@@ -8,7 +8,7 @@ public final class ResourceUriHelper {
 
     private ResourceUriHelper() { }
 
-    public static URI getUri(final Object resourceId) {
+    public static URI uriFrom(final Object resourceId) {
         return ServletUriComponentsBuilder.fromCurrentRequestUri()
                 .path("/{id}")
                 .buildAndExpand(resourceId)
