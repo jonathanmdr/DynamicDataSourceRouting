@@ -13,12 +13,12 @@ services:
     volumes:
       - mysql-data:/bitnami/mysql/data
     environment:
-      - MYSQL_REPLICATION_MODE=master
-      - MYSQL_REPLICATION_USER=repl_user
-      - MYSQL_USER=master
-      - MYSQL_DATABASE=billionaires
-      - ALLOW_EMPTY_PASSWORD=yes
-      - MYSQL_ROOT_PASSWORD=root
+      MYSQL_REPLICATION_MODE: master
+      MYSQL_REPLICATION_USER: repl_user
+      MYSQL_USER: master
+      MYSQL_DATABASE: billionaires
+      ALLOW_EMPTY_PASSWORD: yes
+      MYSQL_ROOT_PASSWORD: root
     healthcheck:
       test: ["CMD", "/opt/bitnami/scripts/mysql/healthcheck.sh"]
       interval: 15s
@@ -36,14 +36,14 @@ services:
     depends_on:
       - master-db
     environment:
-      - MYSQL_REPLICATION_MODE=slave
-      - MYSQL_REPLICATION_USER=repl_user
-      - MYSQL_USER=replica
-      - MYSQL_DATABASE=billionaires
-      - MYSQL_MASTER_HOST=master-db
-      - MYSQL_MASTER_PORT_NUMBER=3306
-      - MYSQL_MASTER_ROOT_PASSWORD=root
-      - ALLOW_EMPTY_PASSWORD=yes
+      MYSQL_REPLICATION_MODE: slave
+      MYSQL_REPLICATION_USER: repl_user
+      MYSQL_USER: replica
+      MYSQL_DATABASE: billionaires
+      MYSQL_MASTER_HOST: master-db
+      MYSQL_MASTER_PORT_NUMBER: 3306
+      MYSQL_MASTER_ROOT_PASSWORD: root
+      ALLOW_EMPTY_PASSWORD: yes
     healthcheck:
       test: ["CMD", "/opt/bitnami/scripts/mysql/healthcheck.sh"]
       interval: 15s
@@ -53,7 +53,12 @@ services:
   jaeger:
     image: jaegertracing/all-in-one:latest
     container_name: jaeger
+    hostname: jaeger
     restart: "no"
+    environment:
+      COLLECTOR_OTLP_ENABLED: true
+      METRICS_STORAGE_TYPE: prometheus
+      PROMETHEUS_SERVER_URL: http://prometheus:9090
     ports:
       # Agent Zipkin Compact
       - "5775:5775/udp"
@@ -69,37 +74,67 @@ services:
       - "14268:14268"
       # Collector gRPC
       - "14250:14250"
-    environment:
-      - METRICS_STORAGE_TYPE=prometheus
-      - PROMETHEUS_SERVER_URL=http://prometheus:9090
+    depends_on:
+      - prometheus
+    networks:
+      - multi-data-sources
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.68.0
+    container_name: otel-collector
+    hostname: otel-collector
+    restart: "no"
+    command:
+      - --config=/etc/otel-collector-config.yaml
+    ports:
+      - "4317:4317"
+      - "4318:4318"
+      - "8888:8888"
+      - "9999:9999"
+    volumes:
+      - ./otel-dev/otel-collector.yaml:/etc/otel-collector-config.yaml
+    depends_on:
+      - jaeger
+      - prometheus
     networks:
       - multi-data-sources
 
   prometheus:
-    image: prom/prometheus:v2.42.0
+    image: prom/prometheus:v2.41.0
     container_name: prometheus
+    hostname: prometheus
+    restart: "no"
     command:
-      - --config.file=/etc/prometheus/prometheus-configuration.yaml
+      - --web.console.templates=/etc/prometheus/consoles
+      - --web.console.libraries=/etc/prometheus/console_libraries
+      - --storage.tsdb.retention.time=1h
+      - --storage.tsdb.path=/prometheus
+      - --web.enable-lifecycle
+      - --web.route-prefix=/
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --web.enable-remote-write-receiver
     ports:
       - "9090:9090"
     volumes:
-      - prometheus-data:/prometheus
-      - ./agents/prometheus:/etc/prometheus
+      - ./otel-dev/prometheus.yaml:/etc/prometheus/prometheus.yml
     networks:
       - multi-data-sources
 
   grafana:
-    image: grafana/grafana-oss:9.3.6
+    image: grafana/grafana:9.3.2
     container_name: grafana
+    hostname: grafana
+    restart: "no"
+    environment:
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
+      GF_AUTH_ANONYMOUS_ENABLED: true
+      GF_AUTH_BASIC_ENABLED: false
     ports:
       - "3000:3000"
-    environment:
-      - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-      - GF_USERS_ALLOW_SIGN_UP=false
-      - GF_SERVER_DOMAIN=localhost
     volumes:
-      - grafana-data:/var/lib/grafana
+      - ./otel-dev/ds-prometheus.yaml:/etc/grafana/provisioning/datasources/datasource.yml
+    depends_on:
+      - prometheus
     networks:
       - multi-data-sources
 

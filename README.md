@@ -45,13 +45,17 @@ make down
 
 Variáveis de ambiente:
 ```shell
-OTEL_TRACES_EXPORTER=jaeger
-OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=http://localhost:14250
-OTEL_METRICS_EXPORTER=none
+OTEL_METRICS_EXPORTER=otlp
+OTEL_EXPORTER_OTLP_METRICS_COMPRESSION=gzip
+OTEL_EXPORTER_OTLP_METRICS_ENDPOINT=http://localhost:4317
+OTEL_TRACES_EXPORTER=otlp
+OTEL_EXPORTER_OTLP_TRACES_COMPRESSION=gzip
+OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=http://localhost:4317
+OTEL_LOGS_EXPORTER=none
 OTEL_SERVICE_NAME=billionaire-api
 ```
 
 Argumentos de VM:
 ```shell
--javaagent:./agents/otel/opentelemetry-javaagent.jar
+-javaagent:./agents/opentelemetry-javaagent.jar
 ```

@@ -23,7 +23,9 @@
         <springdoc-openapi-starter-webmvc-ui.version>2.1.0</springdoc-openapi-starter-webmvc-ui.version>
         <snakyaml.version>2.0</snakyaml.version>
         <h2.version>2.1.214</h2.version>
-        <opentelemetry.version>1.26.0</opentelemetry.version>
+        <opentelemetry.version>1.28.0</opentelemetry.version>
+        <micrometer-registry-otlp.version>1.11.2</micrometer-registry-otlp.version>
+        <protobuf-java.version>3.24.0</protobuf-java.version>
     </properties>
 
     <dependencyManagement>
@@ -82,7 +84,21 @@
         </dependency>
         <dependency>
             <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-registry-prometheus</artifactId>
+            <artifactId>micrometer-registry-otlp</artifactId>
+            <version>${micrometer-registry-otlp.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.protobuf</groupId>
+                    <artifactId>protobuf-java</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- Solves the https://devhub.checkmarx.com/cve-details/CVE-2022-3171/ -->
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>${protobuf-java.version}</version>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.flywaydb</groupId>
