@@ -1,11 +1,3 @@
-# ACTUATOR CONFIGURATION
-management:
-  metrics:
-    otlp:
-      metrics:
-        export:
-          url: host.docker.internal:4317
-
 # DATABASE MASTER PROPERTIES
 master:
   datasource:

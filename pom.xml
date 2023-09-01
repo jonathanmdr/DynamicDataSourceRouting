@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.1</version>
+        <version>3.1.3</version>
         <relativePath/>
     </parent>
 
@@ -19,13 +19,11 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
-        <logstash-logback-encoder.version>7.3</logstash-logback-encoder.version>
-        <springdoc-openapi-starter-webmvc-ui.version>2.1.0</springdoc-openapi-starter-webmvc-ui.version>
-        <snakyaml.version>2.0</snakyaml.version>
-        <h2.version>2.1.214</h2.version>
-        <opentelemetry.version>1.28.0</opentelemetry.version>
-        <micrometer-registry-otlp.version>1.11.2</micrometer-registry-otlp.version>
-        <protobuf-java.version>3.24.0</protobuf-java.version>
+        <logstash-logback-encoder.version>7.4</logstash-logback-encoder.version>
+        <springdoc-openapi-starter-webmvc-ui.version>2.2.0</springdoc-openapi-starter-webmvc-ui.version>
+        <snakeyaml.version>2.2</snakeyaml.version>
+        <h2.version>2.2.220</h2.version>
+        <opentelemetry.version>1.29.0</opentelemetry.version>
     </properties>
 
     <dependencyManagement>
@@ -81,24 +79,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-registry-otlp</artifactId>
-            <version>${micrometer-registry-otlp.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.google.protobuf</groupId>
-                    <artifactId>protobuf-java</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <!-- Solves the https://devhub.checkmarx.com/cve-details/CVE-2022-3171/ -->
-        <dependency>
-            <groupId>com.google.protobuf</groupId>
-            <artifactId>protobuf-java</artifactId>
-            <version>${protobuf-java.version}</version>
-            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.flywaydb</groupId>

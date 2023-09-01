@@ -30,27 +30,6 @@ management:
       base-path: /
       exposure:
         include: health
-  metrics:
-    enable:
-      spring: false
-      disk: false
-      mongodb: false
-      tomcat: false
-      jvm: false
-      process: false
-      system: false
-      http: false
-      logback: false
-      kafka: false
-      executor: false
-      application: false
-    otlp:
-      metrics:
-        export:
-          enabled: true
-          step: 1s
-          url: ${OTEL_EXPORTER_OTLP_METRICS_ENDPOINT}
-          aggregation-temporality: "DELTA"
 
 # SPRING CONFIGURATION
 spring:
