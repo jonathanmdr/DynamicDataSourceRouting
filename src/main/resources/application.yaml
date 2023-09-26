@@ -58,6 +58,11 @@ spring:
       "[hibernate.connection.provider_disables_autocommit]": true
       "[hibernate.connection.handling_mode]": DELAYED_ACQUISITION_AND_RELEASE_AFTER_TRANSACTION
 
+# SPRING VIRTUAL THREADS FOR JAVA 21
+  threads:
+    virtual:
+      enabled: true
+
 # OPEN API CONFIGURATION
 springdoc:
   api-docs:
