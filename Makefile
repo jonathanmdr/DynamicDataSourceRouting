@@ -6,6 +6,10 @@ install:
 test:
 	@mvn clean test
 
+build:
+	@VERSION=$$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout) && \
+	docker build . -t "billionaire-api:$$VERSION" --file Dockerfile
+
 version:
 	@mvn versions:set -DgenerateBackupPoms=false -DnewVersion=$1
 

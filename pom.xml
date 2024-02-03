@@ -5,13 +5,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.4</version>
+        <version>3.2.2</version>
         <relativePath/>
     </parent>
 
     <groupId>br.com.multidatasources</groupId>
     <artifactId>multidatasources</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>multidatasources</name>
 
     <properties>
@@ -20,7 +20,7 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <logstash-logback-encoder.version>7.4</logstash-logback-encoder.version>
-        <springdoc-openapi-starter-webmvc-ui.version>2.2.0</springdoc-openapi-starter-webmvc-ui.version>
+        <springdoc-openapi-starter-webmvc-ui.version>2.3.0</springdoc-openapi-starter-webmvc-ui.version>
         <snakeyaml.version>2.2</snakeyaml.version>
         <h2.version>2.2.220</h2.version>
         <opentelemetry.version>1.30.0</opentelemetry.version>

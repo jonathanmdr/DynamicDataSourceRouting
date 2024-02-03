@@ -1,0 +1,21 @@
+# DATABASE SCHEMA PROPERTIES
+schema:
+  name: master-db
+  user: sa
+  pass: sa
+
+# DATABASE MASTER PROPERTIES
+master:
+  datasource:
+    host: localhost
+    url: jdbc:h2:mem:${schema.name};DB_CLOSE_DELAY=-1
+    username: ${schema.user}
+    password: ${schema.pass}
+
+# DATABASE REPLICA PROPERTIES
+replica:
+  datasource:
+    host: localhost
+    url: jdbc:h2:mem:${schema.name};DB_CLOSE_DELAY=-1
+    username: ${schema.user}
+    password: ${schema.pass}

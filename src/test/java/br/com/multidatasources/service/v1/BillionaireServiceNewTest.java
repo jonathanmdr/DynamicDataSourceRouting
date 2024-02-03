@@ -2,7 +2,6 @@ package br.com.multidatasources.service.v1;
 
 import br.com.multidatasources.model.Billionaire;
 import br.com.multidatasources.repository.BillionaireRepository;
-import br.com.multidatasources.service.v1.BillionaireService;
 import br.com.multidatasources.service.v1.idempotency.impl.UUIDIdempotencyGenerator;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
@@ -23,7 +22,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 class BillionaireServiceNewTest {
@@ -115,7 +113,7 @@ class BillionaireServiceNewTest {
         .then()
             .exceptionAsserter()
                 .isInstanceOf(EntityExistsException.class)
-                .messageIsEqualTo("Register has exists with idempotency ID: c2ea0bd8-516b-34d1-bc47-7645b8c2e524");
+                .messageIsEqualTo("Register has exists with idempotency ID: 6a93b53d-93fc-302d-af9e-0c6d4dc80d43");
     }
 
     @Test
@@ -301,7 +299,7 @@ class BillionaireServiceNewTest {
                 }
 
                 void verifyRepositoryDeleteMethodHasCalled() {
-                    verify(billionaireRepository, times(1)).delete(expected);
+                    verify(billionaireRepository).delete(expected);
                 }
 
             }

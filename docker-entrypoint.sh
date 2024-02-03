@@ -12,4 +12,4 @@ export OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=http://host.docker.internal:4317
 export OTEL_LOGS_EXPORTER=none
 export OTEL_SERVICE_NAME=billionaire-api
 
-exec java -Dspring.profiles.active=docker -javaagent:/opentelemetry-javaagent.jar -jar /app.jar
+exec java -Dspring.profiles.active=docker -javaagent:opentelemetry-javaagent.jar -jar app.jar
