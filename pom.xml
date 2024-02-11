@@ -23,7 +23,8 @@
         <springdoc-openapi-starter-webmvc-ui.version>2.3.0</springdoc-openapi-starter-webmvc-ui.version>
         <snakeyaml.version>2.2</snakeyaml.version>
         <h2.version>2.2.220</h2.version>
-        <opentelemetry.version>1.30.0</opentelemetry.version>
+        <opentelemetry.version>1.35.0</opentelemetry.version>
+        <json-path.version>2.9.0</json-path.version>
     </properties>
 
     <dependencyManagement>
@@ -123,6 +124,18 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.jayway.jsonpath</groupId>
+                    <artifactId>json-path</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- Solves the https://devhub.checkmarx.com/cve-details/CVE-2023-51074 -->
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path</artifactId>
+            <version>${json-path.version}</version>
         </dependency>
         <dependency>
             <groupId>io.opentelemetry</groupId>
