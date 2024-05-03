@@ -1,4 +1,4 @@
-package br.com.multidatasources.config.datasource;
+package br.com.multidatasources.config.datasource.replica;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 

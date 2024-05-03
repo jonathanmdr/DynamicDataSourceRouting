@@ -17,7 +17,7 @@ Esta arquitetura consiste em diminuir a concorrência entre transações da API 
 </br>
 
 [![node](https://img.shields.io/badge/Azul_Zulu_OpenJDK-21-red.svg)](https://www.azul.com/downloads/?package=jdk#zulu)
-[![node](https://img.shields.io/badge/Spring_Boot-3.2.2-green.svg)](https://spring.io/)
+[![node](https://img.shields.io/badge/Spring_Boot-3.2.5-green.svg)](https://spring.io/)
 [![node](https://img.shields.io/badge/MySQL-8.0.28-blue.svg)](https://www.mysql.com/)
 
 

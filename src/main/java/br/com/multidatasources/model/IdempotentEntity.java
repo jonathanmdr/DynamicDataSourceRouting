@@ -12,23 +12,23 @@ import jakarta.persistence.MappedSuperclass;
 import java.util.UUID;
 
 @MappedSuperclass
-public abstract class IdempotentEntity<T> {
+public abstract class IdempotentEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private T id;
+    private Long id;
 
-    @Column(name = "idempotency_id")
+    @Column(name = "idempotency_id", nullable = false, updatable = false)
     @Convert(converter = IdempotencyIdConverter.class)
     private UUID idempotencyId;
 
     public abstract void generateIdempotencyId(final IdempotencyGenerator generator);
 
-    public T getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(final T id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 

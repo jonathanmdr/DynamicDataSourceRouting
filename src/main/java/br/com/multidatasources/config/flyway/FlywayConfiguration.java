@@ -1,6 +1,6 @@
 package br.com.multidatasources.config.flyway;
 
-import br.com.multidatasources.config.datasource.MasterDataSource;
+import br.com.multidatasources.config.datasource.master.MasterDataSource;
 import br.com.multidatasources.config.properties.flyway.FlywayProperties;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.MigrationVersion;

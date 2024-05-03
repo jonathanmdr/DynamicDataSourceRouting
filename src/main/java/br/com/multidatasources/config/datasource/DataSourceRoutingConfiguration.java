@@ -1,8 +1,7 @@
-package br.com.multidatasources.config.routing;
+package br.com.multidatasources.config.datasource;
 
-import br.com.multidatasources.config.datasource.DataSourceType;
-import br.com.multidatasources.config.datasource.MasterDataSource;
-import br.com.multidatasources.config.datasource.ReplicaDataSource;
+import br.com.multidatasources.config.datasource.master.MasterDataSource;
+import br.com.multidatasources.config.datasource.replica.ReplicaDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;

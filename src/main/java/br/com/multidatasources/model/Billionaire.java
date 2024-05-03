@@ -9,12 +9,12 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "billionaire")
-public class Billionaire extends IdempotentEntity<Long> {
+public class Billionaire extends IdempotentEntity {
 
-    @Column(name = "first_name")
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @Column(name = "last_name")
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
     private String career;

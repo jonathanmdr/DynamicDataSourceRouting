@@ -1,4 +1,4 @@
-package br.com.multidatasources.config.routing;
+package br.com.multidatasources.config.datasource;
 
 import io.opentelemetry.api.trace.Span;
 import org.slf4j.Logger;
@@ -16,7 +16,6 @@ public class TransactionRoutingDataSource extends AbstractRoutingDataSource {
     @Override
     protected Object determineCurrentLookupKey() {
         if (TransactionSynchronizationManager.isCurrentTransactionReadOnly()) {
-
             LOGGER.info("Routed to: {}", READ_ONLY);
             enrichSpan(READ_ONLY.name(), READ_ONLY.poolName());
 

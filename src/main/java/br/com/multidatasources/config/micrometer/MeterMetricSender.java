@@ -7,6 +7,7 @@ import io.micrometer.core.instrument.Tags;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -38,6 +39,18 @@ public class MeterMetricSender implements MetricSender {
         Gauge.builder(metricName, () -> currentValue)
             .tags(toTags(appendedTags))
             .register(this.meterRegistry);
+    }
+
+    @Override
+    public void summary(final String metricName, final Map<String, String> tags, final Number value) {
+        final var appendedTags = appendDefaultTags(tags);
+        this.meterRegistry.summary(metricName, toTags(appendedTags)).record(value.doubleValue());
+    }
+
+    @Override
+    public void timer(final String metricName, final Map<String, String> tags, final Duration value) {
+        final var appendedTags = appendDefaultTags(tags);
+        this.meterRegistry.timer(metricName, toTags(appendedTags)).record(value);
     }
 
     private Map<String, String> appendDefaultTags(final Map<String, String> tags) {

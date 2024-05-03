@@ -1,6 +1,7 @@
 package br.com.multidatasources.util;
 
 import br.com.multidatasources.config.objectmapper.ObjectMapperConfig;
+import br.com.multidatasources.exception.JsonProcessingException;
 
 import java.util.concurrent.Callable;
 
@@ -20,7 +21,7 @@ public final class JsonUtils {
         try {
             return callable.call();
         } catch (final Exception ex) {
-            throw new RuntimeException("An unexpected error occurred");
+            throw new JsonProcessingException("An unexpected error occurred", ex);
         }
     }
 

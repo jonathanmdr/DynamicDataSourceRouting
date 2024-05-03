@@ -1,5 +1,7 @@
-package br.com.multidatasources.config.datasource;
+package br.com.multidatasources.config.datasource.replica;
 
+import br.com.multidatasources.config.datasource.DataSourceConfiguration;
+import br.com.multidatasources.config.datasource.DataSourceType;
 import br.com.multidatasources.config.properties.datasource.DatabaseConnectionProperties;
 import br.com.multidatasources.config.properties.datasource.ReplicaProperties;
 import org.springframework.context.annotation.Bean;
@@ -14,33 +16,8 @@ import static br.com.multidatasources.config.datasource.DataSourceType.READ_ONLY
 public class ReplicaDataSourceConfiguration implements DataSourceConfiguration {
 
     @Override
-    public String poolName() {
-        return READ_ONLY.poolName();
-    }
-
-    @Override
-    public int minimumIdle() {
-        return READ_ONLY.minimumIdle();
-    }
-
-    @Override
-    public int maximumPoolSize() {
-        return READ_ONLY.maximumPoolSize();
-    }
-
-    @Override
-    public long connectionTimeout() {
-        return READ_ONLY.connectionTimeout();
-    }
-
-    @Override
-    public long idleTimeout() {
-        return READ_ONLY.idleTimeout();
-    }
-
-    @Override
-    public long maxLifetime() {
-        return READ_ONLY.maxLifetime();
+    public DataSourceType dataSourceType() {
+        return READ_ONLY;
     }
 
     @Bean

@@ -8,7 +8,7 @@ schema:
 master:
   datasource:
     host: localhost
-    url: jdbc:h2:mem:${schema.name};DB_CLOSE_DELAY=-1
+    url: jdbc:h2:mem:${schema.name};MODE=MYSQL;DB_CLOSE_DELAY=-1
     username: ${schema.user}
     password: ${schema.pass}
 
@@ -16,6 +16,6 @@ master:
 replica:
   datasource:
     host: localhost
-    url: jdbc:h2:mem:${schema.name};DB_CLOSE_DELAY=-1
+    url: jdbc:h2:mem:${schema.name};MODE=MYSQL;DB_CLOSE_DELAY=-1
     username: ${schema.user}
     password: ${schema.pass}
