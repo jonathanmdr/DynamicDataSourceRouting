@@ -27,18 +27,18 @@ public class OTelSpannerCustomAspect {
 
     @Around("@within(OTelSpannerCustom)")
     public Object execute(final ProceedingJoinPoint joinPoint) throws Throwable {
-        final long start = System.currentTimeMillis();
+        final long start = System.nanoTime();
 
         final Object proceed = joinPoint.proceed();
 
-        final long executionTime = System.currentTimeMillis() - start;
+        final long executionTime = System.nanoTime() - start;
         final String methodName = Objects.isNull(joinPoint.getSignature()) ? "Unrecognized" : joinPoint.getSignature().toShortString();
         final var response = objectMapper.writeValueAsString(proceed);
 
         final Span span = Span.current();
-        span.setAttribute("response", Objects.isNull(response) ? "method called is void" : response);
-        span.setAttribute("executionTime", executionTime);
-        span.setAttribute("methodCalled", methodName);
+        span.setAttribute("method_response_value", Objects.isNull(response) ? "method called is void" : response);
+        span.setAttribute("execution_time_nanos", executionTime);
+        span.setAttribute("method_called_name", methodName);
 
         return proceed;
     }

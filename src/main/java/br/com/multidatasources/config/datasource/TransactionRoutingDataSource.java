@@ -17,21 +17,19 @@ public class TransactionRoutingDataSource extends AbstractRoutingDataSource {
     protected Object determineCurrentLookupKey() {
         if (TransactionSynchronizationManager.isCurrentTransactionReadOnly()) {
             LOGGER.info("Routed to: {}", READ_ONLY);
-            enrichSpan(READ_ONLY.name(), READ_ONLY.poolName());
-
+            enrichSpan(READ_ONLY);
             return READ_ONLY;
         }
 
         LOGGER.info("Routed to: {}", READ_WRITE);
-        enrichSpan(READ_WRITE.name(), READ_WRITE.poolName());
-
+        enrichSpan(READ_WRITE);
         return READ_WRITE;
     }
 
-    private void enrichSpan(final String dbType, final String pollName) {
+    private void enrichSpan(final DataSourceType dataSourceType) {
         final var currentSpan = Span.current();
-        currentSpan.setAttribute("db.type", dbType);
-        currentSpan.setAttribute("db.poll", pollName);
+        currentSpan.setAttribute("db.type", dataSourceType.name());
+        currentSpan.setAttribute("db.poll", dataSourceType.poolName());
     }
 
 }

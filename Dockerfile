@@ -8,7 +8,7 @@ RUN mvn package -DskipTests
 
 FROM azul/zulu-openjdk:21 AS release
 
-ARG OTEL_AGENT_VERSION=v1.32.0
+ARG OTEL_AGENT_VERSION=v1.33.3
 
 WORKDIR /
 

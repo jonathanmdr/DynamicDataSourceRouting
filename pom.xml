@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.5</version>
+        <version>3.3.0</version>
         <relativePath/>
     </parent>
 
@@ -21,10 +21,7 @@
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <logstash-logback-encoder.version>7.4</logstash-logback-encoder.version>
         <springdoc-openapi-starter-webmvc-ui.version>2.5.0</springdoc-openapi-starter-webmvc-ui.version>
-        <snakeyaml.version>2.2</snakeyaml.version>
-        <h2.version>2.2.224</h2.version>
-        <opentelemetry.version>1.35.0</opentelemetry.version>
-        <json-path.version>2.9.0</json-path.version>
+        <opentelemetry.version>1.38.0</opentelemetry.version>
     </properties>
 
     <dependencyManagement>
@@ -38,7 +35,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-    
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -109,33 +106,15 @@
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>${springdoc-openapi-starter-webmvc-ui.version}</version>
         </dependency>
-        <!-- Solves the https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-1471 in spring boot dependencies -->
-        <dependency>
-            <groupId>org.yaml</groupId>
-            <artifactId>snakeyaml</artifactId>
-            <version>${snakeyaml.version}</version>
-        </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>${h2.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.jayway.jsonpath</groupId>
-                    <artifactId>json-path</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <!-- Solves the https://devhub.checkmarx.com/cve-details/CVE-2023-51074 -->
-        <dependency>
-            <groupId>com.jayway.jsonpath</groupId>
-            <artifactId>json-path</artifactId>
-            <version>${json-path.version}</version>
         </dependency>
         <dependency>
             <groupId>io.opentelemetry</groupId>
