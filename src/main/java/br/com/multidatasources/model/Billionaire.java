@@ -4,11 +4,22 @@ import br.com.multidatasources.service.v1.idempotency.IdempotencyGenerator;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 import java.util.Objects;
 
-@Entity
-@Table(name = "billionaire")
+@Entity(name = "Billionaire")
+@Table(
+    name = "billionaires",
+    uniqueConstraints = {
+        @UniqueConstraint(
+            name = "uk_billionaires_idempotency_id",
+            columnNames = {
+                "idempotency_id"
+            }
+        )
+    }
+)
 public class Billionaire extends IdempotentEntity {
 
     @Column(name = "first_name", nullable = false)

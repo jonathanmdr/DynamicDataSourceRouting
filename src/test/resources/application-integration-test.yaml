@@ -1,0 +1,33 @@
+# DATABASE SCHEMA PROPERTIES
+schema:
+  name: master-db
+  user: sa
+  pass: sa
+
+# SPRING CONFIGURATION
+spring:
+  # SPRING DATA JPA CONFIGURATION
+  datasource:
+    driver-class-name: org.h2.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      "[hibernate.format_sql]": true
+
+# DATABASE MASTER PROPERTIES
+master:
+  datasource:
+    host: localhost
+    url: jdbc:h2:mem:${schema.name};MODE=MYSQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1
+    username: ${schema.user}
+    password: ${schema.pass}
+
+# DATABASE REPLICA PROPERTIES
+replica:
+  datasource:
+    host: localhost
+    url: jdbc:h2:mem:${schema.name};MODE=MYSQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1
+    username: ${schema.user}
+    password: ${schema.pass}
