@@ -69,7 +69,7 @@ public class Billionaire extends IdempotentEntity {
 
     @Override
     public void generateIdempotencyId(final IdempotencyGenerator generator) {
-        final var uuid = generator.generate(this);
+        final var uuid = generator.apply(this);
         this.setIdempotencyId(uuid);
     }
 

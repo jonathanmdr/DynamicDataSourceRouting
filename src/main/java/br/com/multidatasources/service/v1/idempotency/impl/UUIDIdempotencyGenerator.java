@@ -15,7 +15,7 @@ import java.util.UUID;
 public class UUIDIdempotencyGenerator implements IdempotencyGenerator {
 
     @Override
-    public UUID generate(final IdempotentEntity data) {
+    public UUID apply(final IdempotentEntity data) {
         try {
             final var messageDigest = MessageDigest.getInstance(Algorithm.SHA_256.value());
             final var jsonDataBytes = JsonUtils.toJson(data).getBytes(StandardCharsets.UTF_8);

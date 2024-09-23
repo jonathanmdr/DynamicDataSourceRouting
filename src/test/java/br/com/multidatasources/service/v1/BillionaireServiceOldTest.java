@@ -111,7 +111,7 @@ class BillionaireServiceOldTest {
 
         final var idempotencyId = UUID.randomUUID();
 
-        when(idempotencyGenerator.generate(any(Billionaire.class))).thenReturn(idempotencyId);
+        when(idempotencyGenerator.apply(any(Billionaire.class))).thenReturn(idempotencyId);
         when(billionaireRepository.existsBillionaireByIdempotencyId(idempotencyId)).thenReturn(Boolean.FALSE);
         when(billionaireRepository.save(any(Billionaire.class))).thenReturn(expected);
 
@@ -132,7 +132,7 @@ class BillionaireServiceOldTest {
 
         final var idempotencyId = UUID.randomUUID();
 
-        when(idempotencyGenerator.generate(any(Billionaire.class))).thenReturn(idempotencyId);
+        when(idempotencyGenerator.apply(any(Billionaire.class))).thenReturn(idempotencyId);
         when(billionaireRepository.existsBillionaireByIdempotencyId(idempotencyId)).thenReturn(Boolean.TRUE);
 
         assertThatThrownBy(() -> subject.save(expected))

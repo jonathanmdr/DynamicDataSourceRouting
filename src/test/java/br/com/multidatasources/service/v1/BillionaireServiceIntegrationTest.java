@@ -98,7 +98,7 @@ class BillionaireServiceIntegrationTest {
             .ignoringFields("id")
             .isEqualTo(billionaire);
 
-        verify(this.idempotencyGenerator).generate(billionaire);
+        verify(this.idempotencyGenerator).apply(billionaire);
         verify(this.billionaireRepository).existsBillionaireByIdempotencyId(billionaire.getIdempotencyId());
         verify(this.billionaireRepository).save(billionaire);
     }
