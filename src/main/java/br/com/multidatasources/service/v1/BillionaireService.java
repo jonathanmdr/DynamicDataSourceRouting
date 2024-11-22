@@ -5,6 +5,8 @@ import br.com.multidatasources.repository.BillionaireRepository;
 import br.com.multidatasources.service.v1.idempotency.IdempotencyGenerator;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +15,8 @@ import java.util.List;
 @Service
 @Transactional
 public class BillionaireService {
+
+    private static final Logger log = LoggerFactory.getLogger(BillionaireService.class);
 
     private final BillionaireRepository billionaireRepository;
     private final IdempotencyGenerator idempotencyGenerator;
@@ -27,6 +31,7 @@ public class BillionaireService {
 
     @Transactional(readOnly = true)
     public Billionaire findById(final Long id) {
+        log.info("Find billionaire by id: {}", id);
         return billionaireRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.format("Register with id %s not found", id)));
     }

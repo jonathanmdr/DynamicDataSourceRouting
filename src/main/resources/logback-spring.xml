@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+    <conversionRule conversionWord="obfuscate" converterClass="br.com.multidatasources.config.logging.ObfuscateLoggingConverter" />
 
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
 
@@ -22,11 +23,13 @@
                 <version>[ignore]</version>
                 <levelValue>[ignore]</levelValue>
                 <timestamp>[ignore]</timestamp>
+                <message>[ignore]</message>
             </fieldNames>
             <provider class="net.logstash.logback.composite.loggingevent.LoggingEventPatternJsonProvider">
                 <pattern>
                     {
-                    "timestamp_app": "%d{yyyy-MM-dd HH:mm:ss.SSS}"
+                    "timestamp_app": "%d{yyyy-MM-dd HH:mm:ss.SSS}",
+                    "message": "%obfuscate(%message)"
                     }
                 </pattern>
             </provider>

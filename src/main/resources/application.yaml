@@ -80,7 +80,7 @@ logging:
     br.com.multidatasources: INFO
   appender: CONSOLE
   pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %X{X-Request-ID} %highlight(%-5level) %magenta([%t]) %msg%n"
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %X{X-Request-ID} %highlight(%-5level) %magenta([%t]) %obfuscate(%msg)%n"
 
 # DATABASE SCHEMA PROPERTIES
 schema:

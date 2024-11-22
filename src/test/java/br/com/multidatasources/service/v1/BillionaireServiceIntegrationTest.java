@@ -11,7 +11,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 
 import java.util.List;
 
@@ -23,11 +23,11 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(DefaultBillionaireParameterResolverExtension.class)
 class BillionaireServiceIntegrationTest {
 
-    @SpyBean
+    @MockitoSpyBean
     private IdempotencyGenerator idempotencyGenerator;
 
     @Autowired
-    @SpyBean
+    @MockitoSpyBean
     private BillionaireRepository billionaireRepository;
 
     @Autowired
