@@ -16,8 +16,8 @@ Esta arquitetura consiste em diminuir a concorrência entre transações da API 
 </br>
 </br>
 
-[![node](https://img.shields.io/badge/Azul_Zulu_OpenJDK-21-red.svg)](https://www.azul.com/downloads/?package=jdk#zulu)
-[![node](https://img.shields.io/badge/Spring_Boot-3.4.0-green.svg)](https://spring.io/)
+[![node](https://img.shields.io/badge/Azul_Zulu_OpenJDK-25-red.svg)](https://www.azul.com/downloads/?package=jdk#zulu)
+[![node](https://img.shields.io/badge/Spring_Boot-3.5.10-green.svg)](https://spring.io/)
 [![node](https://img.shields.io/badge/MySQL-8.0.28-blue.svg)](https://www.mysql.com/)
 
 
@@ -47,15 +47,15 @@ Variáveis de ambiente:
 ```shell
 OTEL_METRICS_EXPORTER=otlp
 OTEL_EXPORTER_OTLP_METRICS_COMPRESSION=gzip
-OTEL_EXPORTER_OTLP_METRICS_ENDPOINT=http://localhost:4317
+OTEL_EXPORTER_OTLP_METRICS_ENDPOINT=http://localhost:4318/v1/metrics
 OTEL_TRACES_EXPORTER=otlp
 OTEL_EXPORTER_OTLP_TRACES_COMPRESSION=gzip
-OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=http://localhost:4317
+OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=http://localhost:4318/v1/traces
 OTEL_LOGS_EXPORTER=none
 OTEL_SERVICE_NAME=billionaire-api
 ```
 
 Argumentos de VM:
 ```shell
--javaagent:./agents/opentelemetry-javaagent.jar
+-javaagent:.otel/otel.jar
 ```

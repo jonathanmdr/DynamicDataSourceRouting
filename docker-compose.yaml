@@ -1,9 +1,7 @@
-version: "3.9"
-
 services:
 
   master-db:
-    image: docker.io/bitnami/mysql:8.0
+    image: docker.io/bitnamilegacy/mysql:8.0
     container_name: master-db
     restart: "no"
     ports:
@@ -26,7 +24,7 @@ services:
       retries: 6
 
   replica-db:
-    image: docker.io/bitnami/mysql:8.0
+    image: docker.io/bitnamilegacy/mysql:8.0
     container_name: replica-db
     restart: "no"
     ports:
@@ -92,7 +90,7 @@ services:
       - "8888:8888"
       - "9999:9999"
     volumes:
-      - ./otel-dev/otel-collector.yaml:/etc/otel-collector-config.yaml
+      - .otel/otel-collector.yaml:/etc/otel-collector-config.yaml
     depends_on:
       - jaeger
       - prometheus
@@ -116,7 +114,7 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ./otel-dev/prometheus.yaml:/etc/prometheus/prometheus.yml
+      - .otel/prometheus.yaml:/etc/prometheus/prometheus.yml
     networks:
       - multi-data-sources
 
@@ -132,7 +130,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./otel-dev/ds-prometheus.yaml:/etc/grafana/provisioning/datasources/datasource.yml
+      - .otel/ds-prometheus.yaml:/etc/grafana/provisioning/datasources/datasource.yml
     depends_on:
       - prometheus
     networks:

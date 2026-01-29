@@ -1,4 +1,4 @@
-.PHONY: clean install test version up down restart upgrade_otel_agent
+.PHONY: clean install test version up down restart otel-agent
 
 clean:
 	@mvn clean
@@ -25,8 +25,10 @@ down:
 restart:
 	@docker-compose restart
 
-upgrade_otel_agent:
-	@echo "Download the OTEL Java Agent..."
-	@mkdir -p agents
-	@curl -o agents/opentelemetry-javaagent.jar -L https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v1.33.3/opentelemetry-javaagent.jar
-	@rm -rf agents/version.txt
+otel-agent:
+	@echo "Update local version for OTEL Java Agent..."
+	@mkdir -p .otel
+	@curl -o .otel/otel.jar -L https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar
+	@curl --progress-bar -sL https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases | grep -oE 'releases/tag/v[0-9]+\.[0-9]+\.[0-9]+' | cut -d'/' -f3 | sort -V | tail -n 1 > .otel/version.txt
+	@VERSION=$$(cat .otel/version.txt) && echo "OTEL Java Agent local was updated to $$VERSION"
+	@rm -rf .otel/version.txt

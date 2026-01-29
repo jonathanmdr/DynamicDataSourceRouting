@@ -15,12 +15,14 @@ spring:
       ddl-auto: create-drop
     properties:
       "[hibernate.format_sql]": true
+  flyway:
+    enabled: false
 
 # DATABASE MASTER PROPERTIES
 master:
   datasource:
     host: localhost
-    url: jdbc:h2:mem:${schema.name};MODE=MYSQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1
+    url: jdbc:h2:mem:${schema.name};MODE=MYSQL;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1
     username: ${schema.user}
     password: ${schema.pass}
 
@@ -28,6 +30,6 @@ master:
 replica:
   datasource:
     host: localhost
-    url: jdbc:h2:mem:${schema.name};MODE=MYSQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1
+    url: jdbc:h2:mem:${schema.name};MODE=MYSQL;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1
     username: ${schema.user}
     password: ${schema.pass}
